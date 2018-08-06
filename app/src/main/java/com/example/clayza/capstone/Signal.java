@@ -6,13 +6,13 @@ public class Signal {
     private String signalId;
     private String location;
     private double  strength;
-    private Date time;
+    private long time;
 
     Signal(){
 
     }
 
-    public Signal(String signalId,String location, double strength, Date time) {
+    public Signal(String signalId,String location, double strength, long time) {
         this.signalId = signalId;
         this.location = location;
         this.strength = strength;
@@ -27,7 +27,7 @@ public class Signal {
         return strength;
     }
 
-    public Date getTime() {
+    public long getTime() {
         return time;
     }
 }

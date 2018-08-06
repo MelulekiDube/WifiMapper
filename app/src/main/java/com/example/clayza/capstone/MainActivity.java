@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         //store the values on firebase
         String id =databaseSignal.push().getKey();//creates a unique string ID
-        Signal sig = new Signal(id,locationName,strengthValue,date);
+        Signal sig = new Signal(id,locationName,strengthValue,date.getTime());
         databaseSignal.child(id).setValue(sig);
         Toast.makeText(this,"Signal added",Toast.LENGTH_LONG).show();
 
