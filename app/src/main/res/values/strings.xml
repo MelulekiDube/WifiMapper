@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">WifiMapper</string>
     <string name="title_activity_maps">Map</string>
+    <string name="permision_location_rationale">Location permission is needed to show the camera preview</string>
+    <string name="ok">OK</string>
+    <string name="permision_location_available">Location Permision has been granted</string>
+    <string name="location_permision_unavailable">Location permision not available.</string>
 </resources>
