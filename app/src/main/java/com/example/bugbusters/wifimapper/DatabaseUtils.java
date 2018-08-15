@@ -18,7 +18,6 @@ import java.util.List;
 public class DatabaseUtils {
     static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
     ListView listView;
-    GoogleApiClient mGoogleApiClient;
 
     private void addSignal() {
         double lon =0;
