@@ -2,37 +2,46 @@ package com.example.clayza.capstone;
 
 import com.google.firebase.database.Exclude;
 
-import java.security.Timestamp;
-
 public class LocationCapstone {
 
-    private long lat;
-    private long lon;
-    private Timestamp time;
+    private double lat;
+    private double lon;
+    private long time;
     private double strength;
     private String signalId;
 
-    public long getLat() {
+
+    public LocationCapstone() {
+    }
+
+    public LocationCapstone(double lat, double lon, long time, double strength) {
+        this.lat = lat;
+        this.lon = lon;
+        this.time = time;
+        this.strength = strength;
+    }
+
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(long lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public long getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(long lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public Timestamp getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -51,5 +60,15 @@ public class LocationCapstone {
 
     public void setSignalId(String signalId) {
         this.signalId = signalId;
+    }
+
+    @Override
+    public String toString() {
+        return "LocationCapstone{" +
+                "lat=" + lat +
+                ", lon=" + lon +
+                ", time=" + time +
+                ", strength=" + strength +
+                '}';
     }
 }

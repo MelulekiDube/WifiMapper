@@ -19,7 +19,7 @@ import java.util.List;
 public class Main2Activity extends Activity {
 
 
-    DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference("signal");
+    DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
     ListView listView;
 
 
@@ -30,7 +30,7 @@ public class Main2Activity extends Activity {
 
         listView = (ListView) findViewById(R.id.recordList);
 
-      final List<String> signalList = new ArrayList<>();;
+      final List<String> signalList = new ArrayList<>();
         // Read from the database
         databaseSignal.addValueEventListener(new ValueEventListener() {
         @Override
@@ -40,9 +40,9 @@ public class Main2Activity extends Activity {
 
 
             for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                Signal signal =snapshot.getValue(Signal.class);
-                signalList.add(signal.toString());
-                Log.d("TAG", "Value is: " + signal);
+               LocationCapstone location =snapshot.getValue(LocationCapstone.class);
+                signalList.add(location.toString());
+              //  Log.d("TAG", "Value is: " + location);
             }
 
        }
@@ -57,6 +57,8 @@ public class Main2Activity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,signalList);
 
         listView.setAdapter(adapter);
+        for(String item:signalList)
+            System.out.println(item+"\n");
 
 }
 

@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -75,17 +76,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addSignal(){
-        long lon = Long.parseLong(longitude.getText().toString().trim());
-        long lat = Long.parseLong(latitude.getText().toString().trim());
+      double lon = Long.parseLong(longitude.getText().toString().trim());
+      double lat = Long.parseLong(latitude.getText().toString().trim());
 
         double strengthValue =Double.parseDouble(strength.getText().toString());
         date = new Date();
+
 
         //store the values on firebase
         String id =databaseSignal.push().getKey();//creates a unique string ID
 
 
-        LocationCapstone lc = new LocationCapstone();
+        LocationCapstone lc = new LocationCapstone(lat,lon,date.getTime(),strengthValue);
         databaseSignal.child(id).setValue(lc);
         Toast.makeText(this,"Signal added",Toast.LENGTH_LONG).show();
 
