@@ -30,7 +30,7 @@ public class Main2Activity extends Activity {
 
         listView = (ListView) findViewById(R.id.recordList);
 
-      final List<String> signalList = new ArrayList<>();
+      final List<LocationCapstone> signalList = new ArrayList<>();
         // Read from the database
         databaseSignal.addValueEventListener(new ValueEventListener() {
         @Override
@@ -41,7 +41,7 @@ public class Main2Activity extends Activity {
 
             for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                LocationCapstone location =snapshot.getValue(LocationCapstone.class);
-                signalList.add(location.toString());
+                signalList.add(location);
               //  Log.d("TAG", "Value is: " + location);
             }
 
@@ -53,24 +53,15 @@ public class Main2Activity extends Activity {
             Log.w("TAG", "Failed to read value.", error.toException());
         }
     });
+    List<String> ls = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,signalList);
+        for(LocationCapstone item:signalList)
+            ls.add(item.toString());
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ls);
         listView.setAdapter(adapter);
-        for(String item:signalList)
-            System.out.println(item+"\n");
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 }
