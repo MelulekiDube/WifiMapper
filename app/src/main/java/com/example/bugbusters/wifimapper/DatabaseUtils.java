@@ -1,7 +1,6 @@
 package com.example.bugbusters.wifimapper;
 
-import android.util.Log;
-import android.widget.ListView;
+//import android.util.Log;
 
 import com.example.bugbusters.wifimapper.LocationCapstone;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -17,26 +16,27 @@ import java.util.List;
 
 public class DatabaseUtils {
     static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
-    ListView listView;
-
-    private void addSignal() {
-        double lon =0;
-        double lat =0;
-
-        double strengthValue =0;
-        Date  date = new Date();
 
 
-        //store the values on firebase
-        String id =databaseSignal.push().getKey();//creates a unique string ID
+    protected void addSignal(double lon, double lat,double strengthValue) {
 
 
-        LocationCapstone lc = new LocationCapstone(lat,lon,date.getTime(),strengthValue);
-        databaseSignal.child(id).setValue(lc);
+            Date  date = new Date();
+
+
+            //store the values on firebase
+            String id =databaseSignal.push().getKey();//creates a unique string ID
+
+
+            LocationCapstone lc = new LocationCapstone(lat,lon,date.getTime(),strengthValue);
+            databaseSignal.child(id).setValue(lc);
 
     }
-    public static void readDatabase(){
+
+    public List<LocationCapstone> readDatabase(){
+
         final List<LocationCapstone> signalList = new ArrayList<>();
+
         // Read from the database
         databaseSignal.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,10 +56,11 @@ public class DatabaseUtils {
             @Override
             public void onCancelled (DatabaseError error){
                 // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
+                //Log.w("TAG", "Failed to read value.", error.toException());
+                System.out.println(error.toException());
             }
         });
-    }
+  return signalList;  }
 
 
 
