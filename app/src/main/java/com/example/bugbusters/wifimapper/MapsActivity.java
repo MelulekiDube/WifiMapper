@@ -23,13 +23,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
     private final int REQUEST_LOCATION_PERMISION = 0;
     private double longitude = 0, latitude = 0;
     protected static final String TAG = "basic-location-sample";
@@ -39,12 +44,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateLocationManager();
+//        updateLocationManager();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    void populateMap()
+    {
+        DatabaseUtils db=new DatabaseUtils();
+        List<LocationCapstone> dataPoints= null;
+        try {
+            dataPoints = db.readDatabase();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        LatLng location;
+        Log.i("DB", ""+dataPoints.size());
+
+        for(LocationCapstone dataPoint:dataPoints)
+        {
+            Log.i("DB",""+dataPoint.getLat());
+            location=new LatLng(dataPoint.getLat(),dataPoint.getLon());
+            float hue=(float)dataPoint.getStrength()/100 * 120;
+            mMap.addMarker(new MarkerOptions().position(location).icon(BitmapDescriptorFactory.defaultMarker(hue)));
+        }
+
+
     }
 
     @SuppressLint("MissingPermission")
@@ -73,7 +101,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -86,21 +113,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Check Permissions Now
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISION);
-
-        } else {
-            // permission has been granted, continue as usual
-//            Snackbar.make(findViewById(R.id.map), R.string.permision_location_available, Snackbar.LENGTH_LONG);
-        }
-        LatLng sydney = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng Jameson = new LatLng(-33.957669, 18.461038);
+//        populateMap();
+        mMap.setMinZoomPreference(16.0f);
+        mMap.setMaxZoomPreference(20.0f);
+        populateMap();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
     }
 
     @SuppressLint("MissingPermission")
