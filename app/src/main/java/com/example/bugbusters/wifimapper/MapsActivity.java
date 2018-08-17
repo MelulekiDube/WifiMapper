@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMinZoomPreference(16.0f);
         mMap.setMaxZoomPreference(20.0f);
         updateLocationManager();
-        Orchastrator.getDataFromDatabase(mMap);
+        Orchastrator.getDataFromDatabase(this, mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
     }
 
