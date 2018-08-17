@@ -2,6 +2,7 @@ package com.example.bugbusters.wifimapper;
 
 //import android.util.Log;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -15,7 +16,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *
+ */
 public class DatabaseUtils {
     static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
     private final static String TAG = "DATABASE_UTILS";
@@ -29,7 +32,7 @@ public class DatabaseUtils {
 
     }
 
-    public static void readDatabase(final GoogleMap map) {
+    public static void readDatabase(final Context c, final GoogleMap map) {
         final List<LocationCapstone> signalList = new ArrayList<>();
         databaseSignal.addValueEventListener(new ValueEventListener() {
             @Override
@@ -38,7 +41,7 @@ public class DatabaseUtils {
                     LocationCapstone location = snapshot.getValue(LocationCapstone.class);
                     signalList.add(location);
                 }
-                Orchastrator.updateMapWithDataPoints(signalList, map);
+                Orchastrator.updateMapWithDataPoints(c, signalList, map);
             }
 
             @Override
