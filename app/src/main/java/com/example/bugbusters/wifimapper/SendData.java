@@ -12,8 +12,7 @@ public class SendData implements Runnable {
     private Location location;
     private final static int NUMBER_OF_LEVELS = 100;
     private WifiInfo wifiInfo;
-    private static final String EDUROAM = "eduroam";
-
+    private static final String NETWORK_ID = "eduroam";
 
     @SuppressLint("MissingPermission")
     SendData(Context c, Location l) {
@@ -48,7 +47,7 @@ public class SendData implements Runnable {
      * @return The wi-fi name that the user is connected to.
      */
     private String getWifiName() {
-        return wifiInfo.getSSID();
+        return wifiInfo.getSSID().replace("\"","");
     }
 
     /**
@@ -62,7 +61,7 @@ public class SendData implements Runnable {
 
     @Override
     public void run() {
-        if (getWifiName().toLowerCase().equals(EDUROAM)) {
+        if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
             DatabaseUtils.addSignal(buildLocationCapstone());
             Log.i("Send_data", "Data return to db");
         } else
