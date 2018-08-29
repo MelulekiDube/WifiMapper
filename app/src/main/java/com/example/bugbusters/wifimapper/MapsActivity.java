@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -105,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateLocationManager();
         //Orchastrator.getDataFromDatabase(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
-        addSegments();
+    //COMMENTED OUT AS WE NEED TO RENDER AREAS FROM DB//        addSegments();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
 
@@ -291,9 +292,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(Color.argb(100,rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)))
                 .strokeWidth(0)
         );
+    }
 
+    void renderSegements(List<Area> areaList)
+    {
+        for (int i=0;i<areaList.size();i++)
+        {
+            Area area=areaList.get(i);
+            mMap.addPolygon(
+                    new PolygonOptions().addAll(area.getCoordinates())
+                    .strokeWidth(0)
+                    .fillColor(evaluateColor(area.getWifiStrength()))
+            );
+        }
+    }
 
-
+    int evaluateColor(double wifiStrength) {
+        int color;
+        if(wifiStrength < 30 ){
+            color = ColorScheme.RED;
+        }else if(wifiStrength  < 50){
+            color = ColorScheme.ORANGE;
+        }else if(wifiStrength < 60){
+            color = ColorScheme.YELLOW;
+        }else if(wifiStrength < 80){
+            color = ColorScheme.GREEN_LIGHT;
+        }else{
+            color = ColorScheme.GREEN;
+        }
+        return color;
     }
 
     @SuppressLint("MissingPermission")

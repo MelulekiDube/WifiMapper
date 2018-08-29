@@ -25,7 +25,6 @@ public class Area {
         this.wifiStrength=wifiStrength;
         this.numberOfLocations =numberOfLocations;
         this.coordinates = new ArrayList<>(coordinates);
-
     }
 
     //Beggining of setters and getters

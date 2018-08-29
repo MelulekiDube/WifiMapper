@@ -7,6 +7,11 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
+
+import java.util.List;
+
 public class SendData implements Runnable {
 
     private Location location;
@@ -47,7 +52,7 @@ public class SendData implements Runnable {
      * @return The wi-fi name that the user is connected to.
      */
     private String getWifiName() {
-        return wifiInfo.getSSID().replace("\"","");
+        return wifiInfo.getSSID().replace("\"", "");
     }
 
     /**
@@ -59,9 +64,18 @@ public class SendData implements Runnable {
         return new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
     }
 
-
-
-
+    Area getLocationArea(LocationCapstone location) {
+        List<Area> areaList = DatabaseUtils.getAreaList(); //clayton
+        Area LocationArea = null;
+        for (int i = 0; i < areaList.size(); i++) {
+            Area area = areaList.get(i);
+            if (PolyUtil.containsLocation(location.getLatLng(), area.getCoordinates(), false)) {
+                LocationArea = area;
+                break;
+            }
+        }
+        return LocationArea;
+    }
 
     @Override
     public void run() {
