@@ -27,7 +27,6 @@ public class DatabaseUtils {
         String id = databaseSignal.push().getKey();//creates a unique string ID
         assert id != null;
         databaseSignal.child(id).setValue(lc);
-
     }
 
 
@@ -53,7 +52,6 @@ public static void addArea(Area area) {
                 }
                 Orchastrator.updateMapWithDataPoints(locationList, map);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Failed to read value
@@ -62,6 +60,5 @@ public static void addArea(Area area) {
         });
 
     }
-
 
 }

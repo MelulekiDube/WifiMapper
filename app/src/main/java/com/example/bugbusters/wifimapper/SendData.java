@@ -59,6 +59,9 @@ public class SendData implements Runnable {
         return new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
     }
 
+
+
+
     @Override
     public void run() {
         if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
