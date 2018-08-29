@@ -1,7 +1,6 @@
 package com.example.bugbusters.wifimapper;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
@@ -9,20 +8,66 @@ import java.util.ArrayList;
 public class Area {
 
     private PolygonOptions segment;
-    private int wifiStrength;
-    private int numberUpdaters;
+    private double wifiStrength;
+    private int numberOfLocations;
+    private ArrayList<LatLng> coordinates;
 
-    Area(ArrayList<LatLng> coordinates) {
-        for (int i = 0; i < coordinates.size(); i++) {
-            segment.add(coordinates.get(i));
-        }
+
+/*This is needed by firebase dont remove
+* */
+    public Area() {
     }
 
+    public Area(PolygonOptions segment, double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates) {
+        this.segment=segment;
+        this.wifiStrength=wifiStrength;
+        this.numberOfLocations =numberOfLocations;
+        this.coordinates = new ArrayList<>(coordinates);
+
+//        for (int i = 0; i < coordinates.size(); i++) {
+//            segment.add(coordinates.get(i));
+//        }
+    }
+
+    //Beggining of setters and getters
     void setwifiStrength(int wifiStrength) {
 
         this.wifiStrength = wifiStrength;
         setColor(wifiStrength);
     }
+
+    public void setSegment(PolygonOptions segment) {
+        this.segment = segment;
+    }
+
+    public void setWifiStrength(double wifiStrength) {
+        this.wifiStrength = wifiStrength;
+    }
+
+    public void setNumberOfLocations(int numberOfLocations) {
+        this.numberOfLocations = numberOfLocations;
+    }
+
+    public void setCoordinates(ArrayList<LatLng> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public PolygonOptions getSegment() {
+        return segment;
+    }
+
+    public double getWifiStrength() {
+        return wifiStrength;
+    }
+
+    public int getNumberOfLocations() {
+        return numberOfLocations;
+    }
+
+    public ArrayList<LatLng> getCoordinates() {
+        return coordinates;
+    }
+
 
 
     void setColor(int wifiStrength) {
@@ -42,3 +87,4 @@ public class Area {
     }
 
 }
+
