@@ -92,6 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 
+
     void addSegments()
     {
         Random rand=new Random();
@@ -262,11 +263,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
 
         Polygon RW_James = mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(-33.956825, 18.461858),
-                        new LatLng(-33.956807, 18.461372),
-                        new LatLng(-33.956525, 18.461398),
-                        new LatLng(-33.955987, 18.461400),
-                        new LatLng(-33.955973, 18.461884)
+                .add(new LatLng(-33.955987, 18.461400),
+                        new LatLng(-33.955973, 18.461906),
+                        new LatLng(-33.955243, 18.461922),
+                        new LatLng(-33.955260, 18.461400)
                 )
                 .fillColor(Color.argb(100,rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)))
                 .strokeWidth(0)

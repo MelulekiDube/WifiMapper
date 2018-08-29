@@ -62,6 +62,7 @@ public class SendData implements Runnable {
 
 
 
+
     @Override
     public void run() {
         if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
