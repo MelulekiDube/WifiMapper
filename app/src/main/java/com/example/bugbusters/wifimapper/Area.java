@@ -42,6 +42,7 @@ public class Area {
 
     public void setWifiStrength(double wifiStrength) {
         this.wifiStrength = wifiStrength;
+        setColor(wifiStrength);
     }
 
     public void setNumberOfLocations(int numberOfLocations) {
@@ -70,7 +71,7 @@ public class Area {
 
 
 
-    void setColor(int wifiStrength) {
+    void setColor(double wifiStrength) {
         int color;
         if(wifiStrength < 30 ){
             color = ColorScheme.RED;
