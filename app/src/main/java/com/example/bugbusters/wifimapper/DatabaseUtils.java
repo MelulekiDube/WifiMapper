@@ -18,6 +18,7 @@ import java.util.List;
 
 public class DatabaseUtils {
     static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
+    static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("area");
     private final static String TAG = "DATABASE_UTILS";
     private final static String ERROR_MESSAGE = "Error in reading the values";
 
@@ -29,16 +30,28 @@ public class DatabaseUtils {
 
     }
 
+
+//This method saves area to the database
+public static void addArea(Area area) {
+    //store the values on firebase
+    String areaId = databaseArea.push().getKey();//creates a unique string ID
+
+    assert areaId != null;
+    databaseArea.child(areaId).setValue(area);
+
+}
+
+
     public static void readDatabase(final GoogleMap map) {
-        final List<LocationCapstone> signalList = new ArrayList<>();
+        final List<LocationCapstone> locationList = new ArrayList<>();
         databaseSignal.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     LocationCapstone location = snapshot.getValue(LocationCapstone.class);
-                    signalList.add(location);
+                    locationList.add(location);
                 }
-                Orchastrator.updateMapWithDataPoints(signalList, map);
+                Orchastrator.updateMapWithDataPoints(locationList, map);
             }
 
             @Override
@@ -47,6 +60,7 @@ public class DatabaseUtils {
                 Log.e(TAG, ERROR_MESSAGE, error.toException());
             }
         });
+
     }
 
 

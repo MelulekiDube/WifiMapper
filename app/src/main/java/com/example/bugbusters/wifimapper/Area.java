@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 public class Area {
 
-    private PolygonOptions segment;
+   // private PolygonOptions segment;
     private double wifiStrength;
     private int numberOfLocations;
     private ArrayList<LatLng> coordinates;
+    private String name;
 
 
 /*This is needed by firebase dont remove
@@ -18,26 +19,20 @@ public class Area {
     public Area() {
     }
 
-    public Area(PolygonOptions segment, double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates) {
-        this.segment=segment;
+    public Area( double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates,String name) {
+        //this.segment=segment;
+        this.name=name;
         this.wifiStrength=wifiStrength;
         this.numberOfLocations =numberOfLocations;
         this.coordinates = new ArrayList<>(coordinates);
 
-//        for (int i = 0; i < coordinates.size(); i++) {
-//            segment.add(coordinates.get(i));
-//        }
     }
 
     //Beggining of setters and getters
-    void setwifiStrength(int wifiStrength) {
 
-        this.wifiStrength = wifiStrength;
-        setColor(wifiStrength);
-    }
 
-    public void setSegment(PolygonOptions segment) {
-        this.segment = segment;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setWifiStrength(double wifiStrength) {
@@ -52,9 +47,6 @@ public class Area {
         this.coordinates = coordinates;
     }
 
-    public PolygonOptions getSegment() {
-        return segment;
-    }
 
     public double getWifiStrength() {
         return wifiStrength;
@@ -68,23 +60,25 @@ public class Area {
         return coordinates;
     }
 
-
-
-    void setColor(int wifiStrength) {
-        int color;
-        if(wifiStrength < 30 ){
-            color = ColorScheme.RED;
-        }else if(wifiStrength  < 50){
-            color = ColorScheme.ORANGE;
-        }else if(wifiStrength < 60){
-            color = ColorScheme.YELLOW;
-        }else if(wifiStrength < 80){
-            color = ColorScheme.GREEN_LIGHT;
-        }else{
-            color = ColorScheme.GREEN;
-        }
-        segment.fillColor(color);
+    public String getName() {
+        return name;
     }
+//Ending of setters and getters
+//    void setColor(int wifiStrength) {
+//        int color;
+//        if(wifiStrength < 30 ){
+//            color = ColorScheme.RED;
+//        }else if(wifiStrength  < 50){
+//            color = ColorScheme.ORANGE;
+//        }else if(wifiStrength < 60){
+//            color = ColorScheme.YELLOW;
+//        }else if(wifiStrength < 80){
+//            color = ColorScheme.GREEN_LIGHT;
+//        }else{
+//            color = ColorScheme.GREEN;
+//        }
+//        //segment.fillColor(color);
+//    }
 
 }
 
