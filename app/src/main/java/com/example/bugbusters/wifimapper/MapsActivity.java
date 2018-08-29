@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,12 +24,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     public GoogleMap mMap;
     private boolean granted = false;
+    private final String TAG ="Map";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+
+
+        //testing db
+        ArrayList<LatLng> coordinates = new ArrayList<>(Arrays.asList(new LatLng(-33.956825, 18.461858),
+                new LatLng(-33.956807, 18.461372),
+                new LatLng(-33.956525, 18.461398),
+                new LatLng(-33.955987, 18.461400),
+                new LatLng(-33.955973, 18.461884)));
+        Log.d(TAG, "DB test ");
+        Area testArea = new Area(0,0,coordinates,"RW_James");
+        DatabaseUtils.addArea(testArea);
+
     }
 
     private void updateLocationManager() {
@@ -90,6 +107,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
         addSegments();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+
+
     }
 
 
@@ -271,6 +291,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(Color.argb(100,rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)))
                 .strokeWidth(0)
         );
+
+
 
     }
 
