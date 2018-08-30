@@ -12,6 +12,7 @@ public class Area {
     private int numberOfLocations;
     private ArrayList<LatLng> coordinates;
     private String name;
+    protected  String id;
 
 
 /*This is needed by firebase dont remove
@@ -19,7 +20,7 @@ public class Area {
     public Area() {
     }
 
-    public Area( double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates,String name) {
+    public Area( String id,double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates,String name) {
         //this.segment=segment;
         this.name=name;
         this.wifiStrength=wifiStrength;
@@ -29,6 +30,14 @@ public class Area {
 
     //Beggining of setters and getters
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public void setName(String name) {
         this.name = name;

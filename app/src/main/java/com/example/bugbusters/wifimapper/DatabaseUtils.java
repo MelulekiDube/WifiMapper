@@ -31,12 +31,14 @@ public class DatabaseUtils {
 
 
 //This method populates the database with areas on the map
-public static void addArea(Area area) {
+public static void addArea(ArrayList<LatLng> coordinates,String name) {
     //store the values on firebase
     String areaId = databaseArea.push().getKey();//creates a unique string ID
 
     assert areaId != null;
-    databaseArea.child(areaId).setValue(area);
+    Area mArea = new Area(areaId,0,0,coordinates,name);
+
+    databaseArea.child(areaId).setValue(mArea);
 
 }
 

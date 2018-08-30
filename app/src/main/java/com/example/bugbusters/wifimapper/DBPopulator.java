@@ -18,8 +18,8 @@ public class DBPopulator {
      static void populateDB(List<LatLng> list, String name){
         Log.d(TAG, "DB test ");
         ArrayList<LatLng> coordinates = new ArrayList<>(list);
-        Area testArea = new Area(0,0,coordinates,name);
-        //DatabaseUtils.addArea(testArea);
+        //Area testArea = new Area(0,0,coordinates,name);
+        DatabaseUtils.addArea(coordinates,name);
 
     }
 
@@ -354,6 +354,12 @@ public class DBPopulator {
                 .fillColor(Color.argb(100,rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)))
                 .strokeWidth(0)
         );
+
+        List<LatLng> rwList = Arrays.asList(new LatLng(-33.955987, 18.461400),
+                new LatLng(-33.955973, 18.461906),
+                new LatLng(-33.955243, 18.461922),
+                new LatLng(-33.955260, 18.461400));
+        populateDB(rwList,"RW James");
     }
 
 
