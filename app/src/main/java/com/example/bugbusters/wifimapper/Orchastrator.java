@@ -19,8 +19,8 @@ public class Orchastrator {
      * @param map the map object which we will then populate with data points after reading the data from it.
      */
     public static void getDataFromDatabase(GoogleMap map) {
-//          DatabaseUtils.getAreaList();
-        DatabaseUtils.readDatabase(map);
+          DatabaseUtils.getAreaList();
+//        DatabaseUtils.readDatabase(map);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Orchastrator {
 
     public static void renderSegements(List<Area> areaList,GoogleMap map)
     {
-//        Log.d("AreaTsst");
+        Log.d("AreaTest",areaList.size()+"");
 
         for (int i=0;i<areaList.size();i++)
         {

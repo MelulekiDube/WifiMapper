@@ -24,7 +24,6 @@ public class DBPopulator {
 
     }
 
-
     static void addSegments(GoogleMap mMap){
 
         Random rand=new Random();
@@ -34,6 +33,7 @@ public class DBPopulator {
                 .fillColor(Color.argb(100,0,0,100))
                 .strokeWidth(0)
         );
+
         List<LatLng> preList = Arrays.asList(new LatLng(-33.954874, 18.460117),new LatLng(-33.954874, 18.460732),
                 new LatLng(-33.955385, 18.460748), new LatLng(-33.955384, 18.460117));
         populateDB(preList,"Pre_PD");

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class DatabaseUtils {
     static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
-    static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("area");
+    static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("areas");
     private final static String TAG = "DATABASE_UTILS";
     private final static String ERROR_MESSAGE = "Error in reading the values";
 
@@ -50,8 +50,8 @@ public static List<Area> getAreaList(){
                 Area area = snapshot.getValue(Area.class);
                 areaList.add(area);
             }
-//            Log.d("AreaTest",areaList.size()+"");
-//            Orchastrator.renderSegements(areaList,MapsActivity.mMap);
+            Log.d("AreaTest",areaList.size()+"");
+            Orchastrator.renderSegements(areaList,MapsActivity.mMap);
         }
 
         @Override
@@ -82,7 +82,7 @@ public static List<Area> getAreaList(){
                     locationList.add(location);
                 }
 //                Orchastrator.updateMapWithDataPoints(locationList, map);
-                Orchastrator.renderSegements(getAreaList(),map);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
