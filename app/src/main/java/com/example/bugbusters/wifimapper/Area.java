@@ -1,6 +1,6 @@
 package com.example.bugbusters.wifimapper;
 
-import com.google.android.gms.maps.model.LatLng;
+
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
