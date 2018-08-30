@@ -59,6 +59,17 @@ public class Area {
         return coordinates;
     }
 
+    public void updateAreaInfo(double strength)
+    {
+        double CummulativeWifiStrength=(numberOfLocations*wifiStrength)+strength;
+        numberOfLocations++;
+        this.wifiStrength=CummulativeWifiStrength/numberOfLocations;
+    }
+
+
+
+
+
     public String getName() {
         return name;
     }

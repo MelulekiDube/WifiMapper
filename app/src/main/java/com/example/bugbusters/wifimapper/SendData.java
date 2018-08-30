@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 //import com.google.maps.android.PolyUtil;
 
 import java.util.List;
@@ -63,19 +64,19 @@ public class SendData implements Runnable {
     private LocationCapstone buildLocationCapstone() {
         return new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
     }
-
-    //Area getLocationArea(LocationCapstone location) {
-     //   List<Area> areaList = DatabaseUtils.getAreaList(); //clayton
-       // Area LocationArea = null;
-       // for (int i = 0; i < areaList.size(); i++) {
-          //  Area area = areaList.get(i);
-           /// if (PolyUtil.containsLocation(location.getLatLng(), area.getCoordinates(), false)) {
-             //   LocationArea = area;
-             //   break;
-           // }
-      //  }
-        //return LocationArea;
-    //}
+    public static Area getLocationArea(LocationCapstone location) {
+        List<Area> areaList = DatabaseUtils.getAreaList(); //clayton
+        Area LocationArea = null;
+        for (int i = 0; i < areaList.size(); i++) {
+            Area area = areaList.get(i);
+           if (PolyUtil.containsLocation(location.getLatLng(), area.getCoordinates(), false)) {
+                LocationArea = area;
+                break;
+            }
+        }
+        Log.i("AreaTest",LocationArea.getName());
+        return LocationArea;
+    }
 
     @Override
     public void run() {

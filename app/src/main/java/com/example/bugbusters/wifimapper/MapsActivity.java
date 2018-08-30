@@ -31,7 +31,7 @@ import java.util.Random;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    public GoogleMap mMap;
+    public static GoogleMap mMap;
     private boolean granted = false;
     private final String TAG ="Map";
 
@@ -45,9 +45,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
-
-
 
     }
 
@@ -95,51 +92,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMinZoomPreference(16.0f);
         mMap.setMaxZoomPreference(20.0f);
         updateLocationManager();
-        //Orchastrator.getDataFromDatabase(mMap);
+        Orchastrator.getDataFromDatabase(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
-    //COMMENTED OUT AS WE NEED TO RENDER AREAS FROM DB//
-           addSegments();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-
-
+//        SendData.getLocationArea(new LocationCapstone(-33.956114, 18.461087,0,0));
     }
 
+//
+//    void addSegments()
+//    {
+//        DBPopulator.addSegments(mMap);
+//
+//    }
+//
 
-    void addSegments()
-    {
-        DBPopulator.addSegments(mMap);
 
-    }
 
-    void renderSegements(List<Area> areaList)
-    {
-        for (int i=0;i<areaList.size();i++)
-        {
-            Area area=areaList.get(i);
-            mMap.addPolygon(
-                    new PolygonOptions().addAll(area.getCoordinates())
-                    .strokeWidth(0)
-                    .fillColor(evaluateColor(area.getWifiStrength()))
-            );
-        }
-    }
-
-    int evaluateColor(double wifiStrength) {
-        int color;
-        if(wifiStrength < 30 ){
-            color = ColorScheme.RED;
-        }else if(wifiStrength  < 50){
-            color = ColorScheme.ORANGE;
-        }else if(wifiStrength < 60){
-            color = ColorScheme.YELLOW;
-        }else if(wifiStrength < 80){
-            color = ColorScheme.GREEN_LIGHT;
-        }else{
-            color = ColorScheme.GREEN;
-        }
-        return color;
-    }
 
     @SuppressLint("MissingPermission")
     public void onRequestPermissionsResult(int requestCode,

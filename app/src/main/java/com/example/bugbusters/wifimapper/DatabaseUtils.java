@@ -50,8 +50,8 @@ public static List<Area> getAreaList(){
                 Area area = snapshot.getValue(Area.class);
                 areaList.add(area);
             }
-
-
+//            Log.d("AreaTest",areaList.size()+"");
+//            Orchastrator.renderSegements(areaList,MapsActivity.mMap);
         }
 
         @Override
@@ -60,7 +60,6 @@ public static List<Area> getAreaList(){
             Log.e(TAG, ERROR_MESSAGE, databaseError.toException());
         }
     });
-
     return areaList;//might cause problems with asynchronous nature of db queries
 }
 
@@ -73,8 +72,6 @@ public static List<Area> getAreaList(){
  static  void updateStrength(Area area, double locationStrength){
 
 }
-
-
     public static void readDatabase(final GoogleMap map) {
         final List<LocationCapstone> locationList = new ArrayList<>();
         databaseSignal.addValueEventListener(new ValueEventListener() {
@@ -84,7 +81,8 @@ public static List<Area> getAreaList(){
                     LocationCapstone location = snapshot.getValue(LocationCapstone.class);
                     locationList.add(location);
                 }
-                Orchastrator.updateMapWithDataPoints(locationList, map);
+//                Orchastrator.updateMapWithDataPoints(locationList, map);
+                Orchastrator.renderSegements(getAreaList(),map);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
