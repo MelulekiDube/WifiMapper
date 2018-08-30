@@ -30,13 +30,47 @@ public class DatabaseUtils {
     }
 
 
-//This method saves area to the database
+//This method populates the database with areas on the map
 public static void addArea(Area area) {
     //store the values on firebase
     String areaId = databaseArea.push().getKey();//creates a unique string ID
 
     assert areaId != null;
     databaseArea.child(areaId).setValue(area);
+
+}
+
+public static List<Area> getAreaList(){
+    final List<Area> areaList = new ArrayList<>();
+
+    databaseArea.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Area area = snapshot.getValue(Area.class);
+                areaList.add(area);
+            }
+
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            // Failed to read value
+            Log.e(TAG, ERROR_MESSAGE, databaseError.toException());
+        }
+    });
+
+    return areaList;//might cause problems with asynchronous nature of db queries
+}
+
+//
+/**
+ * method for updating average strength value and the number of locations for an area
+ * @param area
+ * @param locationStrength
+ */
+ static  void updateStrength(Area area, double locationStrength){
 
 }
 
