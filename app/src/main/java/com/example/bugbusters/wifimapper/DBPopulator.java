@@ -26,7 +26,12 @@ public class DBPopulator {
     static void addSegments(GoogleMap mMap){
 
         Random rand=new Random();
-        Polygon Pre_PD = mMap.addPolygon(new PolygonOptions()
+        if(mMap ==null)
+        {
+            Log.d(TAG, "addSegments: mMap is null");
+            return;
+        }
+         Polygon Pre_PD = mMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(-33.954874, 18.460117).toGoogleLatLng(),new LatLng(-33.954874, 18.460732).toGoogleLatLng(),
                         new LatLng(-33.955385, 18.460748).toGoogleLatLng(), new LatLng(-33.955384, 18.460117).toGoogleLatLng())
                 .fillColor(Color.argb(100,0,0,100))
@@ -46,7 +51,7 @@ public class DBPopulator {
 
         List<LatLng> pdList = Arrays.asList(new LatLng(-33.955384, 18.460117),new LatLng(-33.955385, 18.460748),
                 new LatLng(-33.956498, 18.460750), new LatLng(-33.956450,  18.459849));
-        populateDB(preList,"PD");
+        populateDB(pdList,"PD");
 
         Polygon Career_Service = mMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(-33.956450,  18.459849).toGoogleLatLng(),new LatLng(-33.956475,  18.460444).toGoogleLatLng(),

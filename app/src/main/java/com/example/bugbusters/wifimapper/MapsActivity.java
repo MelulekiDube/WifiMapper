@@ -46,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
+
     }
 
     private void updateLocationManager() {
@@ -96,15 +97,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //        SendData.getLocationArea(new LocationCapstone(-33.956114, 18.461087,0,0));
+//       addSegments();
     }
 
-//
-//    void addSegments()
-//    {
-//        DBPopulator.addSegments(mMap);
-//
-//    }
-//
+
+    void addSegments()
+    {
+        DBPopulator.addSegments(mMap);
+
+    }
+
 
 
 

@@ -57,8 +57,8 @@ public class Orchastrator {
         {
             Area area=areaList.get(i);
             map.addPolygon(
-                    new PolygonOptions().addAll(area.getCoordinates())
-//                            .strokeWidth(0)
+                    new PolygonOptions().addAll(area.getGoogleCoordinates())
+                            .strokeWidth(2.2f)
                             .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()))
             );
         }

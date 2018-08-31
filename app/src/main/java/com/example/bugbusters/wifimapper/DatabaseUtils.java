@@ -52,7 +52,9 @@ public static List<Area> getAreaList(){
                 Area area = snapshot.getValue(Area.class);
                 areaList.add(area);
             }
+
             Log.d("AreaTest",areaList.size()+"");
+
             Orchastrator.renderSegements(areaList,MapsActivity.mMap);
         }
 

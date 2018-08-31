@@ -26,6 +26,7 @@ public class Area {
         this.wifiStrength=wifiStrength;
         this.numberOfLocations =numberOfLocations;
         this.coordinates = new ArrayList<>(coordinates);
+        this.id=id;
     }
 
     //Beggining of setters and getters
@@ -67,6 +68,18 @@ public class Area {
     public ArrayList<LatLng> getCoordinates() {
         return coordinates;
     }
+
+
+    public ArrayList<com.google.android.gms.maps.model.LatLng> getGoogleCoordinates() {
+      ArrayList<com.google.android.gms.maps.model.LatLng> resultList = new ArrayList<>();
+
+       for(LatLng item:coordinates){
+           resultList.add(item.toGoogleLatLng());
+       }
+
+        return resultList;
+    }
+
 
     public void updateAreaInfo(double strength)
     {
