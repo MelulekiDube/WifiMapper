@@ -56,6 +56,7 @@ public class Orchastrator {
         for (int i=0;i<areaList.size();i++)
         {
             Area area=areaList.get(i);
+          // DatabaseUtils.updateStrength(area,50);
             map.addPolygon(
                     new PolygonOptions().addAll(area.getGoogleCoordinates())
                             .strokeWidth(2.2f)

@@ -10,8 +10,10 @@ public class LocationCapstone {
     private long time;
     private double strength;
     private String signalId;
+    private String areaId;
 
-
+/*
+* */
     public LocationCapstone() {
     }
 

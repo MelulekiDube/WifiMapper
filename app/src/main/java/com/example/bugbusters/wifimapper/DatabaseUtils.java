@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -71,9 +72,14 @@ public static List<Area> getAreaList(){
 /**
  * method for updating average strength value and the number of locations for an area
  * @param area
- * @param locationStrength
+ * @param wifiStrength
  */
- static  void updateStrength(Area area, double locationStrength){
+ static  void updateStrength(Area area, double wifiStrength){
+     String id = area.getId();
+     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("areas").child(area.getId());
+     dbref.child("wifiStrength").setValue(area.getWifiStrength()+wifiStrength);
+     dbref.child("numberOfLocations").setValue(area.getNumberOfLocations()+1);
+
 
 }
     public static void readDatabase(final GoogleMap map) {
