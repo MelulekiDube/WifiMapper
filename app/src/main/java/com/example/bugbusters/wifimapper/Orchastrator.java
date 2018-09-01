@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class Orchastrator {
      * @param map the map object which we will then populate with data points after reading the data from it.
      */
     public static void getDataFromDatabase(GoogleMap map) {
-        DatabaseUtils.readDatabase(map);
+          DatabaseUtils.getAreaList();
+//        DatabaseUtils.readDatabase(map);
     }
 
     /**
@@ -26,11 +28,13 @@ public class Orchastrator {
      * @param c the application context
      * @param l the location
      */
+
     public static void sendData(Context c, Location l){
         Log.i("Orchastrator", "Sending Data");
         Thread thread =  new Thread(new SendData(c, l));
         thread.start();
     }
+
 
     /**
      * This method will updated the method in the map activity with the read dat and any new data that is found by the method.
@@ -43,6 +47,27 @@ public class Orchastrator {
             float hue = (float) location.getStrength() / 100 * 120;
             map.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.defaultMarker(hue)));
         }
-
     }
+
+    public static void renderSegements(List<Area> areaList,GoogleMap map)
+    {
+        Log.d("AreaTest",areaList.size()+"");
+
+        for (int i=0;i<areaList.size();i++)
+        {
+            Area area=areaList.get(i);
+          // DatabaseUtils.updateStrength(area,50);
+            map.addPolygon(
+                    new PolygonOptions().addAll(area.getGoogleCoordinates())
+                            .strokeWidth(2.2f)
+                            .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()))
+            );
+        }
+    }
+
+
+
+
+
+
 }

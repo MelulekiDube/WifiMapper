@@ -1,5 +1,6 @@
 package com.example.bugbusters.wifimapper;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 
 public class LocationCapstone {
@@ -9,8 +10,10 @@ public class LocationCapstone {
     private long time;
     private double strength;
     private String signalId;
+    private String areaId;
 
-
+/*
+* */
     public LocationCapstone() {
     }
 
@@ -61,6 +64,8 @@ public class LocationCapstone {
     public void setSignalId(String signalId) {
         this.signalId = signalId;
     }
+
+    public LatLng getLatLng() {return new LatLng(lat,lon);}
 
     @Override
     public String toString() {
