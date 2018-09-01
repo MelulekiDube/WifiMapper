@@ -12,12 +12,12 @@ public class LocationCapstone {
     private String signalId;
     private String areaId;
 
-/*
-* */
+    /*
+     * */
     public LocationCapstone() {
     }
 
-    public LocationCapstone(double lat, double lon, long time, double strength) {
+    LocationCapstone(double lat, double lon, long time, double strength) {
         this.lat = lat;
         this.lon = lon;
         this.time = time;
@@ -56,6 +56,14 @@ public class LocationCapstone {
         this.strength = strength;
     }
 
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
     @Exclude
     public String getSignalId() {
         return signalId;
@@ -65,7 +73,9 @@ public class LocationCapstone {
         this.signalId = signalId;
     }
 
-    public LatLng getLatLng() {return new LatLng(lat,lon);}
+    public LatLng getLatLng() {
+        return new LatLng(lat, lon);
+    }
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package com.example.bugbusters.wifimapper;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -11,63 +12,87 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.List;
+import java.util.Map;
 
 public class Orchastrator {
 
-    /**
-     * This method intiializes the reading of data from the database together with the listners for data changes in the database.
-     * @param map the map object which we will then populate with data points after reading the data from it.
-     */
-    public static void getDataFromDatabase(GoogleMap map) {
-          DatabaseUtils.getAreaList();
-//        DatabaseUtils.readDatabase(map);
+    public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
+    public static List<Area> areas = null;
+
+    public static void setUpDB() {
+        DatabaseUtils.setListeners();
     }
 
     /**
      * This method is going to be responsible to spawn the thread that will be sending the data to the database this way the main thread can continue doing what its doing
+     *
      * @param c the application context
      * @param l the location
      */
-
-    public static void sendData(Context c, Location l){
+    public static void sendData(Context c, Location l) {
         Log.i("Orchastrator", "Sending Data");
-        Thread thread =  new Thread(new SendData(c, l));
+        Thread thread = new Thread(new SendData(c, l));
         thread.start();
     }
 
+    public static void getAreaList(List<Area> list) {
+        areas = list;
+    }
 
     /**
-     * This method will updated the method in the map activity with the read dat and any new data that is found by the method.
-     * @param list this is the list of data points that are read from the database.
-     * @param map this is the map object where we will be writing the markers to.
+     * This method will look for the location
+     *
+     * @param newObject the new object added to the database
      */
-    public static void updateMapWithDataPoints(List<LocationCapstone> list, GoogleMap map) {
-        for(LocationCapstone location : list) {
-            LatLng loc = new LatLng(location.getLat(), location.getLon());
-            float hue = (float) location.getStrength() / 100 * 120;
-            map.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.defaultMarker(hue)));
+    public static void updateSegmentWithObject(LocationCapstone newObject) {
+        for (Area a : areas) {
+            if (a.id.equals(newObject.getAreaId())) {
+                double avg_strength = areaStrengthMappings.get(a);
+                avg_strength = (avg_strength + newObject.getStrength()) / 2;
+                MapsActivity.updateArea(a, avg_strength);
+            }
         }
     }
 
-    public static void renderSegements(List<Area> areaList,GoogleMap map)
-    {
-        Log.d("AreaTest",areaList.size()+"");
-
-        for (int i=0;i<areaList.size();i++)
-        {
-            Area area=areaList.get(i);
-          // DatabaseUtils.updateStrength(area,50);
-            map.addPolygon(
-                    new PolygonOptions().addAll(area.getGoogleCoordinates())
-                            .strokeWidth(2.2f)
-                            .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()))
-            );
+    /**
+     * This method maps each area object to its strength
+     *
+     * @param locationList list of locations read from the database
+     */
+    public static void createMappingsFromList(List<LocationCapstone> locationList) {
+        while (areas.isEmpty()) ;
+        for (LocationCapstone l : locationList) {
+            insert(getArea(l), l);
         }
+        MapsActivity.renderSegements();
     }
 
+    /**
+     * Given a locationcapstone project this method returns the area that this object belongs to
+     *
+     * @param locationCapstone the object we want to get which area it belongs to
+     * @return are to which the location object belongs to
+     */
+    private static Area getArea(LocationCapstone locationCapstone) {
+        for (Area a : areas) {
+            if (a.id.equals(locationCapstone.getAreaId())) {
+                return a;
+            }
+        }
+        return null;
+    }
 
-
-
-
-
+    /**
+     * This methods inserts appropriately to the list
+     *
+     * @param a  area to insert to
+     * @param ll location that will update the area object
+     */
+    private static void insert(Area a, LocationCapstone ll) {
+        if (a != null) {
+            Double strength = (areaStrengthMappings.containsKey(a)) ? areaStrengthMappings.get(a) : 0;
+            strength = (strength + ll.getStrength()) / 2;
+            areaStrengthMappings.put(a, strength);
+        }
+    }
 }

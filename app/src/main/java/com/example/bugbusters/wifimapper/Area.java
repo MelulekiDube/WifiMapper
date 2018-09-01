@@ -4,35 +4,25 @@ package com.example.bugbusters.wifimapper;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Area {
 
-   // private PolygonOptions segment;
-    private double wifiStrength;
-    private int numberOfLocations;
+    protected String id;
+    // private PolygonOptions segment;
     private ArrayList<LatLng> coordinates;
     private String name;
-    protected  String id;
 
 
-/*This is needed by firebase dont remove
-* */
+    /*This is needed by firebase dont remove
+     * */
     public Area() {
     }
 
-    public Area( String id,double wifiStrength, int numberOfLocations, ArrayList<LatLng> coordinates,String name) {
+    public Area(String id, List<LatLng> coordinates, String name) {
         //this.segment=segment;
-        this.name=name;
-        this.wifiStrength=wifiStrength;
-        this.numberOfLocations =numberOfLocations;
+        this.name = name;
         this.coordinates = new ArrayList<>(coordinates);
-        this.id=id;
-    }
-
-    //Beggining of setters and getters
-
-
-    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,60 +30,35 @@ public class Area {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setWifiStrength(double wifiStrength) {
-        this.wifiStrength = wifiStrength;
-    }
-
-    public void setNumberOfLocations(int numberOfLocations) {
-        this.numberOfLocations = numberOfLocations;
-    }
-
-    public void setCoordinates(ArrayList<LatLng> coordinates) {
-        this.coordinates = coordinates;
-    }
-
-
-    public double getWifiStrength() {
-        return wifiStrength;
-    }
-
-    public int getNumberOfLocations() {
-        return numberOfLocations;
+    //Beggining of setters and getters
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ArrayList<LatLng> getCoordinates() {
         return coordinates;
     }
 
+    public void setCoordinates(ArrayList<LatLng> coordinates) {
+        this.coordinates = coordinates;
+    }
 
     public ArrayList<com.google.android.gms.maps.model.LatLng> getGoogleCoordinates() {
-      ArrayList<com.google.android.gms.maps.model.LatLng> resultList = new ArrayList<>();
+        ArrayList<com.google.android.gms.maps.model.LatLng> resultList = new ArrayList<>();
 
-       for(LatLng item:coordinates){
-           resultList.add(item.toGoogleLatLng());
-       }
+        for (LatLng item : coordinates) {
+            resultList.add(item.toGoogleLatLng());
+        }
 
         return resultList;
     }
 
-
-    public void updateAreaInfo(double strength)
-    {
-        double CummulativeWifiStrength=(numberOfLocations*wifiStrength)+strength;
-        numberOfLocations++;
-        this.wifiStrength=CummulativeWifiStrength/numberOfLocations;
-    }
-
-
-
-
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 //Ending of setters and getters
 //    void setColor(int wifiStrength) {
