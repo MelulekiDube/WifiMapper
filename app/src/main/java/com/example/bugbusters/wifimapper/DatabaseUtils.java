@@ -2,10 +2,18 @@ package com.example.bugbusters.wifimapper;
 
 //import android.util.Log;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
 import com.example.bugbusters.wifimapper.listeners.LocationDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 
@@ -32,6 +40,7 @@ public class DatabaseUtils {
         String id = databaseSignal.push().getKey();//creates a unique string ID
         assert id != null;
         databaseSignal.child(id).setValue(lc);// this will be replaced with reading ifnormation from the database
+
     }
 
     //This method populates the database with areas on the map
@@ -39,8 +48,28 @@ public class DatabaseUtils {
         //store the values on firebase
         String areaId = databaseArea.push().getKey();//creates a unique string ID
         assert areaId != null;
-        Area mArea = new Area(areaId, coordinates, name);
+        Area mArea = new Area(areaId, coordinates, name,0,0);
         databaseArea.child(areaId).setValue(mArea);
+
+    }
+
+    public static void updateArea(String id, final int wifiStrength) {
+
+        DatabaseReference areaRef=databaseArea.child(id);
+        areaRef.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                Area area=mutableData.getValue(Area.class);
+                mutableData.setValue(area.updateArea(wifiStrength));
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                    Log.i("UPDATE","Data is successfully Updated");
+            }
+        });
 
     }
 }
