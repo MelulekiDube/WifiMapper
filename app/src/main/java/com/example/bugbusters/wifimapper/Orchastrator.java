@@ -11,12 +11,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Orchastrator {
 
     public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
+    public final static Map<String,ArrayList<LocationCapstone>> areaLocationMappings=new HashMap<>();
     public static List<Area> areas = null;
 
     public static void setUpDB() {
@@ -60,11 +63,22 @@ public class Orchastrator {
      * @param locationList list of locations read from the database
      */
     public static void createMappingsFromList(List<LocationCapstone> locationList) {
-        while (areas.isEmpty()) ;
-        for (LocationCapstone l : locationList) {
-            insert(getArea(l), l);
+        for (LocationCapstone location:locationList)
+        {
+            String areaId=location.getAreaId();
+            if(areaLocationMappings.containsKey(areaId))
+            {
+                ArrayList<LocationCapstone> locationCollection=areaLocationMappings.get(areaId);
+                locationCollection.add(location);
+            }
+
+            else
+                {
+                    ArrayList<LocationCapstone> locationCollection=new ArrayList<>();
+                    locationCollection.add(location);
+                    areaLocationMappings.put(areaId,locationCollection);
+                }
         }
-//        MapsActivity.renderSegements();
     }
 
     /**
