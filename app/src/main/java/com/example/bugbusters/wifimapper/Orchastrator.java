@@ -35,7 +35,7 @@ public class Orchastrator {
         thread.start();
     }
 
-    public static void getAreaList(List<Area> list) {
+    public static void setAreaList(List<Area> list) {
         areas = list;
     }
 
@@ -64,7 +64,7 @@ public class Orchastrator {
         for (LocationCapstone l : locationList) {
             insert(getArea(l), l);
         }
-        MapsActivity.renderSegements();
+//        MapsActivity.renderSegements();
     }
 
     /**
@@ -88,6 +88,7 @@ public class Orchastrator {
      * @param a  area to insert to
      * @param ll location that will update the area object
      */
+
     private static void insert(Area a, LocationCapstone ll) {
         if (a != null) {
             Double strength = (areaStrengthMappings.containsKey(a)) ? areaStrengthMappings.get(a) : 0;

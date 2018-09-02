@@ -19,7 +19,7 @@ public class DBPopulator {
         Log.d(TAG, "DB test ");
         ArrayList<LatLng> coordinates = new ArrayList<>(list);
         //Area testArea = new Area(0,0,coordinates,name);
-        //DatabaseUtils.addArea(coordinates,name);
+        DatabaseUtils.addArea(coordinates,name);
 
     }
 

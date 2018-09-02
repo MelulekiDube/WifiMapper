@@ -49,16 +49,16 @@ public class SendData implements Runnable {
     }
 
     private static Area getLocationArea(LocationCapstone location) {
-        List<Area> areaList = Orchastrator.areas; //clayton
+        List<Area> areaList = Orchastrator.areas;
         Area LocationArea = null;
         for (int i = 0; i < areaList.size(); i++) {
             Area area = areaList.get(i);
             if (PolyUtil.containsLocation(location.getLatLng(), area.getGoogleCoordinates(), false)) {
-                Log.i("AreaTest", LocationArea.getName());
-                return LocationArea;
+                LocationArea=area;
+                break;
             }
         }
-        return null;
+        return LocationArea;
     }
 
     /**
@@ -84,7 +84,9 @@ public class SendData implements Runnable {
     @Override
     public void run() {
         if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
-            DatabaseUtils.addSignal(buildLocationCapstone());
+            LocationCapstone sentLocation=buildLocationCapstone();
+            DatabaseUtils.addSignal(sentLocation);
+            DatabaseUtils.updateArea(getLocationArea(sentLocation).getId(),getWifiStrength());
             Log.i("Send_data", "Data return to db");
         } else
             Log.i("SEND_DATA", "Not on eduroam");

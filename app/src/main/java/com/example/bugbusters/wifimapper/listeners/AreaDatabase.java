@@ -16,18 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AreaDatabase implements ValueEventListener, ChildEventListener {
-
-
     private List<Area> areaList = new ArrayList<>();
-
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Area area = snapshot.getValue(Area.class);
             areaList.add(area);
         }
-        Log.d("AreaTest", areaList.size() + "");
-        Orchastrator.getAreaList(areaList);
+        Orchastrator.setAreaList(areaList);
+        MapsActivity.renderSegements(areaList);
     }
 
     @Override

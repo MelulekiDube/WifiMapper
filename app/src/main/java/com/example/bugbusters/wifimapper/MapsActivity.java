@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.List;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -43,18 +44,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Method add the segments, and their segment colours to the map
      */
-    public static void renderSegements() {
-        Map<Area, Double> areaStrengthMap = Orchastrator.areaStrengthMappings;
-        Log.d("AreaTest", areaStrengthMap.size() + "");
-        for (Map.Entry<Area, Double> entry : areaStrengthMap.entrySet()) {
-            Area area = entry.getKey();
-            mMap.addPolygon(
-                    new PolygonOptions().addAll(area.getGoogleCoordinates())
-                            .strokeWidth(2.2f)
-                            .fillColor(ColorScheme.evaluateColor(entry.getValue()))
-            );
-        }
+    public static void renderSegements(List<Area> segment_list) {
+
+        for(Area area:segment_list)
+           {
+               mMap.addPolygon(
+                       new PolygonOptions().addAll(area.getGoogleCoordinates())
+                               .strokeWidth(2.2f)
+                               .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()))
+               );
+           }
     }
+
+
 
     /**
      * This method should update the strength rendered to are a with the new strength avg_strength.
@@ -120,6 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Orchastrator.getDataFromDatabase(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        Orchastrator.setUpDB();
     }
 
     @SuppressLint("MissingPermission")

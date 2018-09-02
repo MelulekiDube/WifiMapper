@@ -2,6 +2,7 @@ package com.example.bugbusters.wifimapper;
 
 
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
 public class Area {
 
     protected String id;
-    // private PolygonOptions segment;
     private ArrayList<LatLng> coordinates;
     private String name;
+    private int wifiStrength;
+    private int numLocation;
+
 
 
     /*This is needed by firebase dont remove
@@ -19,11 +22,13 @@ public class Area {
     public Area() {
     }
 
-    public Area(String id, List<LatLng> coordinates, String name) {
+    public Area(String id, List<LatLng> coordinates, String name,int wifiStrength,int numLocation) {
         //this.segment=segment;
         this.name = name;
         this.coordinates = new ArrayList<>(coordinates);
         this.id = id;
+        this.wifiStrength=wifiStrength;
+        this.numLocation=numLocation;
     }
 
     public String getId() {
@@ -60,22 +65,31 @@ public class Area {
     public void setName(String name) {
         this.name = name;
     }
-//Ending of setters and getters
-//    void setColor(int wifiStrength) {
-//        int color;
-//        if(wifiStrength < 30 ){
-//            color = ColorScheme.RED;
-//        }else if(wifiStrength  < 50){
-//            color = ColorScheme.ORANGE;
-//        }else if(wifiStrength < 60){
-//            color = ColorScheme.YELLOW;
-//        }else if(wifiStrength < 80){
-//            color = ColorScheme.GREEN_LIGHT;
-//        }else{
-//            color = ColorScheme.GREEN;
-//        }
-//        //segment.fillColor(color);
-//    }
+
+    public int getWifiStrength() {
+        return wifiStrength;
+    }
+
+    public void setWifiStrength(int wifiStrength) {
+        this.wifiStrength = wifiStrength;
+    }
+
+    public int getNumLocation() {
+        return numLocation;
+    }
+
+    public void setNumLocation(int numLocation) {
+        this.numLocation = numLocation;
+    }
+
+    @Exclude
+    public Area updateArea(int wifiStrength)
+    {
+        long cummulativeStrength=(this.numLocation*this.wifiStrength)+wifiStrength;
+        numLocation++;
+        return new Area(this.id,this.coordinates,this.name,(int)cummulativeStrength/(numLocation),numLocation);
+
+    }
 
 }
 
