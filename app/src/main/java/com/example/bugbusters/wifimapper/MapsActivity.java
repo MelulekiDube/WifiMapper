@@ -18,7 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static GoogleMap mMap;
     private boolean granted = false;
-
+    private boolean viewingMarkers = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,23 +44,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Method add the segments, and their segment colours to the map
-     */
-    public static void renderSegements(List<Area> segment_list) {
-
-        for(Area area:segment_list)
-           {
-               mMap.addPolygon(
-                       new PolygonOptions().addAll(area.getGoogleCoordinates())
-                               .strokeWidth(2.2f)
-                               .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()))
-               );
-           }
-    }
-
-
-
-    /**
      * This method should update the strength rendered to are a with the new strength avg_strength.
      *
      * @param a            the area/segment to be updated
@@ -70,9 +55,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * This method should update the strength rendered to are a with the new strength avg_strength.
      *
-     * @param area the area/segment to be updated
+     * @param updatedArea the area/segment to be updated
      */
-    public static void updateArea(Area area) {
+    public static void updateArea(Area updatedArea) {
+        Polygon polygon = Orchastrator.areaPolygonMappings.get(updatedArea.getId());
+//        Log.i("areaStrength",updatedArea.getId()+" "+updatedArea.getWifiStrength());
+        polygon.setFillColor(ColorScheme.evaluateColor(updatedArea.getWifiStrength()));
     }
 
     private void updateLocationManager() {
@@ -115,6 +103,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+
+            }
+        });
         LatLng Jameson = new LatLng(-33.957669, 18.461038);
         mMap.setMinZoomPreference(16.0f);
         mMap.setMaxZoomPreference(20.0f);

@@ -9,9 +9,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +19,8 @@ import java.util.Map;
 public class Orchastrator {
 
     public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
-    public final static Map<String,ArrayList<LocationCapstone>> areaLocationMappings=new HashMap<>();
     public static List<Area> areas = null;
-
+    public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
     public static void setUpDB() {
         DatabaseUtils.setListeners();
     }
@@ -38,6 +37,9 @@ public class Orchastrator {
         thread.start();
     }
 
+    /**
+     * @param list
+     */
     public static void setAreaList(List<Area> list) {
         areas = list;
     }
@@ -63,22 +65,11 @@ public class Orchastrator {
      * @param locationList list of locations read from the database
      */
     public static void createMappingsFromList(List<LocationCapstone> locationList) {
-        for (LocationCapstone location:locationList)
-        {
-            String areaId=location.getAreaId();
-            if(areaLocationMappings.containsKey(areaId))
-            {
-                ArrayList<LocationCapstone> locationCollection=areaLocationMappings.get(areaId);
-                locationCollection.add(location);
-            }
-
-            else
-                {
-                    ArrayList<LocationCapstone> locationCollection=new ArrayList<>();
-                    locationCollection.add(location);
-                    areaLocationMappings.put(areaId,locationCollection);
-                }
+        while (areas.isEmpty()) ;
+        for (LocationCapstone l : locationList) {
+            insert(getArea(l), l);
         }
+//        MapsActivity.renderSegements();
     }
 
     /**
@@ -110,4 +101,7 @@ public class Orchastrator {
             areaStrengthMappings.put(a, strength);
         }
     }
+
+
+
 }

@@ -7,7 +7,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.example.bugbusters.wifimapper.listeners.Values;
 import com.google.maps.android.PolyUtil;
 //import com.google.maps.android.PolyUtil;
 //import com.google.maps.android.PolyUtil;
@@ -48,17 +48,17 @@ public class SendData implements Runnable {
         return wifiInfo.getLinkSpeed();
     }
 
-    private static Area getLocationArea(LocationCapstone location) {
+    private static String getLocationAreaId(LocationCapstone location) {
         List<Area> areaList = Orchastrator.areas;
-        Area LocationArea = null;
+        Area locationArea = null;
         for (int i = 0; i < areaList.size(); i++) {
             Area area = areaList.get(i);
             if (PolyUtil.containsLocation(location.getLatLng(), area.getGoogleCoordinates(), false)) {
-                LocationArea=area;
+                locationArea = area;
                 break;
             }
         }
-        return LocationArea;
+        return (locationArea != null) ? locationArea.getId() : null;
     }
 
     /**
@@ -77,18 +77,27 @@ public class SendData implements Runnable {
      */
     private LocationCapstone buildLocationCapstone() {
         LocationCapstone locationCapstone = new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
-        locationCapstone.setAreaId(getLocationArea(locationCapstone).getId());
+//        locationCapstone.setAreaId(getLocationAreaId(locationCapstone));
         return locationCapstone;
     }
 
     @Override
     public void run() {
-        if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
-            LocationCapstone sentLocation=buildLocationCapstone();
+        Log.i("SendTest", "SendData Thread Run() is called");
+        if (true) {//getWifiName().toLowerCase().equals(NETWORK_ID)) {
+            while (!DatabaseUtils.loadedArea) ;
+            LocationCapstone sentLocation = buildLocationCapstone();
             DatabaseUtils.addSignal(sentLocation);
-            DatabaseUtils.updateArea(getLocationArea(sentLocation).getId(),getWifiStrength());
-            Log.i("Send_data", "Data return to db");
+            String areaToUpdate = getLocationAreaId(sentLocation);
+            areaToUpdate = "-LLMPHfAnjSuNoI7NbBu";
+            if (areaToUpdate == null) {
+                Log.e(Values.TAG, "id is not  of a valid area");
+                return;
+            }
+            Log.i("SendTest", "Before Update is called");
+            DatabaseUtils.updateArea(areaToUpdate, getWifiStrength());
+            Log.i(SendData.class.getName(), "Data return to db");
         } else
-            Log.i("SEND_DATA", "Not on eduroam");
+            Log.i(SendData.class.getName(), "Not on eduroam");
     }
 }
