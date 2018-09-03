@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.bugbusters.wifimapper.LocationCapstone;
 import com.example.bugbusters.wifimapper.Orchastrator;
+import com.example.bugbusters.wifimapper.Values;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationDatabase implements ValueEventListener, ChildEventListener {
-    private final static List<LocationCapstone> LOCATION_LIST = new ArrayList<>();
+    private final List<LocationCapstone> LOCATION_LIST = new ArrayList<>();
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -23,7 +24,7 @@ public class LocationDatabase implements ValueEventListener, ChildEventListener 
             LocationCapstone location = snapshot.getValue(LocationCapstone.class);
             LOCATION_LIST.add(location);
         }
-        Orchastrator.createMappingsFromList(LOCATION_LIST);
+        Orchastrator.setLocationList(LOCATION_LIST);
     }
 
     @Override

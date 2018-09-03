@@ -7,7 +7,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.example.bugbusters.wifimapper.listeners.Values;
 import com.google.maps.android.PolyUtil;
 //import com.google.maps.android.PolyUtil;
 //import com.google.maps.android.PolyUtil;

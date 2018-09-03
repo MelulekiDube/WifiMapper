@@ -13,24 +13,21 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
 import com.example.bugbusters.wifimapper.listeners.LocationTracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
-
-import java.util.List;
-import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     public static GoogleMap mMap;
     private boolean granted = false;
-    private boolean viewingMarkers = false;
+    private static boolean viewingMarkers = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +88,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private static void renderMarkers() {
+        mMap.clear();
+        if (Orchastrator.LOCATION_LIST == null) throw new NullPointerException();
+        for (LocationCapstone l : Orchastrator.LOCATION_LIST) {
+            mMap.addMarker(new MarkerOptions().position(l.getLatLng()));
+        }
+        viewingMarkers = true;
+    }
+
+    private static void renderPolygons() {
+        mMap.clear();
+        Orchastrator.areaPolygonMappings.clear();
+        for (Area area : Orchastrator.areas) {
+            AreaDatabase.createPolygon(area);
+        }
+        viewingMarkers = false;
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -106,12 +121,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-
+                if (mMap.getCameraPosition().zoom > 18) {
+                    if (!viewingMarkers) {
+                        Log.i("CameraChange", "rendering markers.");
+                        renderMarkers();
+                    }
+                }
+                if (mMap.getCameraPosition().zoom <= 18) {
+                    if (viewingMarkers) {
+                        Log.i("CameraChange", "rendering polygons.");
+                        renderPolygons();
+                    }
+                }
             }
         });
         LatLng Jameson = new LatLng(-33.957669, 18.461038);
-        mMap.setMinZoomPreference(16.0f);
-        mMap.setMaxZoomPreference(20.0f);
+        mMap.setMinZoomPreference(Values.MIN_ZOOM_LEVEL);
+        mMap.setMaxZoomPreference(Values.MAX_ZOOM_LVEL);
         updateLocationManager();
         //Orchastrator.getDataFromDatabase(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
@@ -130,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 granted = true;
             } else {
                 // Permission was denied or request was cancelled
-                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
             }
         }
     }
