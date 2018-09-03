@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class Orchastrator {
     public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
     public static List<Area> areas = null;
     public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
+    public static List<LocationCapstone> LOCATION_LIST = null;
     public static void setUpDB() {
         DatabaseUtils.setListeners();
     }
@@ -64,12 +66,8 @@ public class Orchastrator {
      *
      * @param locationList list of locations read from the database
      */
-    public static void createMappingsFromList(List<LocationCapstone> locationList) {
-        while (areas.isEmpty()) ;
-        for (LocationCapstone l : locationList) {
-            insert(getArea(l), l);
-        }
-//        MapsActivity.renderSegements();
+    public static void setLocationList(List<LocationCapstone> locationList) {
+        LOCATION_LIST = locationList;
     }
 
     /**

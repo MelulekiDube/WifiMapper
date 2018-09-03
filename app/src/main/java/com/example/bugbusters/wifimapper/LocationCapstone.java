@@ -2,8 +2,9 @@ package com.example.bugbusters.wifimapper;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
+import com.google.maps.android.clustering.ClusterItem;
 
-public class LocationCapstone {
+public class LocationCapstone implements ClusterItem {
 
     private double lat;
     private double lon;
@@ -85,5 +86,20 @@ public class LocationCapstone {
                 ", time=" + time +
                 ", strength=" + strength +
                 '}';
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return getLatLng();
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
     }
 }

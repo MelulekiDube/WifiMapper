@@ -9,7 +9,7 @@ import com.example.bugbusters.wifimapper.ColorScheme;
 import com.example.bugbusters.wifimapper.DatabaseUtils;
 import com.example.bugbusters.wifimapper.MapsActivity;
 import com.example.bugbusters.wifimapper.Orchastrator;
-import com.google.android.gms.maps.model.Polygon;
+import com.example.bugbusters.wifimapper.Values;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

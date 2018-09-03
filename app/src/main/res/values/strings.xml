@@ -5,4 +5,5 @@
     <string name="ok">OK</string>
     <string name="permision_location_available">Location Permision has been granted</string>
     <string name="location_permision_unavailable">Location permision not available.</string>
+    <string name="DeniedPermisions">Permission Denied</string>
 </resources>
