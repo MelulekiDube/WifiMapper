@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
 import com.example.bugbusters.wifimapper.listeners.LocationTracker;
+import com.example.bugbusters.wifimapper.listeners.ZoomListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static GoogleMap mMap;
     private boolean granted = false;
-    private static boolean viewingMarkers = false;
+    public static boolean viewingMarkers = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private static void renderMarkers() {
+    public static void renderMarkers() {
         mMap.clear();
         if (Orchastrator.LOCATION_LIST == null) throw new NullPointerException();
         for (LocationCapstone l : Orchastrator.LOCATION_LIST) {
@@ -97,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         viewingMarkers = true;
     }
 
-    private static void renderPolygons() {
+    public static void renderPolygons() {
         mMap.clear();
         Orchastrator.areaPolygonMappings.clear();
         for (Area area : Orchastrator.areas) {
@@ -118,23 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                if (mMap.getCameraPosition().zoom > 18) {
-                    if (!viewingMarkers) {
-                        Log.i("CameraChange", "rendering markers.");
-                        renderMarkers();
-                    }
-                }
-                if (mMap.getCameraPosition().zoom <= 18) {
-                    if (viewingMarkers) {
-                        Log.i("CameraChange", "rendering polygons.");
-                        renderPolygons();
-                    }
-                }
-            }
-        });
+        mMap.setOnCameraMoveListener(new ZoomListener());
         LatLng Jameson = new LatLng(-33.957669, 18.461038);
         mMap.setMinZoomPreference(Values.MIN_ZOOM_LEVEL);
         mMap.setMaxZoomPreference(Values.MAX_ZOOM_LVEL);
@@ -156,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 granted = true;
             } else {
                 // Permission was denied or request was cancelled
-                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
             }
         }
     }

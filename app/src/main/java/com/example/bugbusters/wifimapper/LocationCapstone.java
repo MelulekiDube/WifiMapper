@@ -10,7 +10,6 @@ public class LocationCapstone implements ClusterItem {
     private double lon;
     private long time;
     private double strength;
-    private String signalId;
     private String areaId;
 
     /*
@@ -66,14 +65,6 @@ public class LocationCapstone implements ClusterItem {
     }
 
     @Exclude
-    public String getSignalId() {
-        return signalId;
-    }
-
-    public void setSignalId(String signalId) {
-        this.signalId = signalId;
-    }
-
     public LatLng getLatLng() {
         return new LatLng(lat, lon);
     }
@@ -89,16 +80,19 @@ public class LocationCapstone implements ClusterItem {
     }
 
     @Override
+    @Exclude
     public LatLng getPosition() {
         return getLatLng();
     }
 
     @Override
+    @Exclude
     public String getTitle() {
         return null;
     }
 
     @Override
+    @Exclude
     public String getSnippet() {
         return null;
     }
