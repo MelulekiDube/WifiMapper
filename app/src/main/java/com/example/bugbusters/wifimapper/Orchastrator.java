@@ -9,8 +9,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class Orchastrator {
 
     public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
     public static List<Area> areas = null;
-
+    public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
     public static void setUpDB() {
         DatabaseUtils.setListeners();
     }
@@ -35,6 +37,9 @@ public class Orchastrator {
         thread.start();
     }
 
+    /**
+     * @param list
+     */
     public static void setAreaList(List<Area> list) {
         areas = list;
     }
@@ -96,4 +101,7 @@ public class Orchastrator {
             areaStrengthMappings.put(a, strength);
         }
     }
+
+
+
 }

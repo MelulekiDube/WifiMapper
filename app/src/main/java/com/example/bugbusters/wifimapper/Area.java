@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Area {
-
     protected String id;
     private ArrayList<LatLng> coordinates;
     private String name;

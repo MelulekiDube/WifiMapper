@@ -5,8 +5,12 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.bugbusters.wifimapper.Area;
+import com.example.bugbusters.wifimapper.ColorScheme;
+import com.example.bugbusters.wifimapper.DatabaseUtils;
 import com.example.bugbusters.wifimapper.MapsActivity;
 import com.example.bugbusters.wifimapper.Orchastrator;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,14 +21,15 @@ import java.util.List;
 
 public class AreaDatabase implements ValueEventListener, ChildEventListener {
     private List<Area> areaList = new ArrayList<>();
-    @Override
-    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Area area = snapshot.getValue(Area.class);
-            areaList.add(area);
-        }
-        Orchastrator.setAreaList(areaList);
-        MapsActivity.renderSegements(areaList);
+
+    public static void createPolygon(Area area) {
+        PolygonOptions polygon =
+                new PolygonOptions().addAll(area.getGoogleCoordinates())
+                        .strokeWidth(2.2f)
+                        .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()));
+
+
+        Orchastrator.areaPolygonMappings.put(area.getId(), MapsActivity.mMap.addPolygon(polygon));
     }
 
     @Override
@@ -53,4 +58,16 @@ public class AreaDatabase implements ValueEventListener, ChildEventListener {
         // Failed to read value
         Log.e(Values.TAG, databaseError.getMessage());
     }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            Area area = snapshot.getValue(Area.class);
+            areaList.add(area);
+            createPolygon(area);
+        }
+        Orchastrator.setAreaList(areaList);
+        DatabaseUtils.loadedArea = true;
+    }
+
 }

@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
+
 import java.util.ArrayList;
 
 public class DatabaseUtils {
@@ -23,7 +24,7 @@ public class DatabaseUtils {
 
     private final static String TAG = "DATABASE_UTILS";
     private final static String ERROR_MESSAGE = "Error in reading the values";
-
+    public static boolean loadedArea = false;
 
     public static void setListeners() {
         LocationDatabase locationDatabase = new LocationDatabase();
@@ -54,7 +55,7 @@ public class DatabaseUtils {
     }
 
     public static void updateArea(String id, final int wifiStrength) {
-
+        Log.i("SendTest", "inside updateArea()");
         DatabaseReference areaRef=databaseArea.child(id);
         areaRef.runTransaction(new Transaction.Handler() {
             @NonNull

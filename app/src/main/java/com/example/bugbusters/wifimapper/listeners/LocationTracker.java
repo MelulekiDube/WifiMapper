@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.bugbusters.wifimapper.Orchastrator;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +20,8 @@ public class LocationTracker implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+
+        Log.i("SendTest", "onLocationChanged");
         Orchastrator.sendData(context, location);
     }
 
