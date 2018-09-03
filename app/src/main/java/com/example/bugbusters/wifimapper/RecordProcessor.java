@@ -13,7 +13,7 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.List;
 
-public class SendData implements Runnable {
+public class RecordProcessor implements Runnable {
 
     private Location location;
     private final static int NUMBER_OF_LEVELS = 100;
@@ -21,7 +21,7 @@ public class SendData implements Runnable {
     private static final String NETWORK_ID = "eduroam";
 
     @SuppressLint("MissingPermission")
-    SendData(Context c, Location l) {
+    RecordProcessor(Context c, Location l) {
         Log.i("Send Data", l.getLatitude() + " " + l.getLongitude());
         location = l;
         WifiManager wifiManager = (WifiManager) c.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -82,21 +82,20 @@ public class SendData implements Runnable {
 
     @Override
     public void run() {
-        Log.i("SendTest", "SendData Thread Run() is called");
-        if (true) {//getWifiName().toLowerCase().equals(NETWORK_ID)) {
+        Log.i("SendTest", "RecordProcessor Thread Run() is called");
+        if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
             while (!DatabaseUtils.loadedArea) ;
             LocationCapstone sentLocation = buildLocationCapstone();
             DatabaseUtils.addSignal(sentLocation);
             String areaToUpdate = getLocationAreaId(sentLocation);
-            areaToUpdate = "-LLMPHfAnjSuNoI7NbBu";
             if (areaToUpdate == null) {
                 Log.e(Values.TAG, "id is not  of a valid area");
                 return;
             }
             Log.i("SendTest", "Before Update is called");
             DatabaseUtils.updateArea(areaToUpdate, getWifiStrength());
-            Log.i(SendData.class.getName(), "Data return to db");
+            Log.i(RecordProcessor.class.getName(), "Data return to db");
         } else
-            Log.i(SendData.class.getName(), "Not on eduroam");
+            Log.i(RecordProcessor.class.getName(), "Not on eduroam");
     }
 }
