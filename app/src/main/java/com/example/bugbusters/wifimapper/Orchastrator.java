@@ -5,14 +5,8 @@ import android.location.Location;
 import android.util.ArrayMap;
 import android.util.Log;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +29,7 @@ public class Orchastrator {
      */
     public static void sendData(Context c, Location l) {
         Log.i("Orchastrator", "Sending Data");
-        Thread thread = new Thread(new SendData(c, l));
+        Thread thread = new Thread(new RecordProcessor(c, l));
         thread.start();
     }
 
