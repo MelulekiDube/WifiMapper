@@ -10,6 +10,7 @@ import com.example.bugbusters.wifimapper.DatabaseUtils;
 import com.example.bugbusters.wifimapper.MapsActivity;
 import com.example.bugbusters.wifimapper.Orchastrator;
 import com.example.bugbusters.wifimapper.Values;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,13 +24,13 @@ public class AreaDatabase implements ValueEventListener, ChildEventListener {
     private List<Area> areaList = new ArrayList<>();
 
     public static void createPolygon(Area area) {
-        PolygonOptions polygon =
+        Polygon polygon = MapsActivity.mMap.addPolygon(
                 new PolygonOptions().addAll(area.getGoogleCoordinates())
                         .strokeWidth(2.2f)
-                        .fillColor(ColorScheme.evaluateColor(area.getWifiStrength()));
-
-
-        Orchastrator.areaPolygonMappings.put(area.getId(), MapsActivity.mMap.addPolygon(polygon));
+                        .fillColor(ColorScheme.evaluateColor(area.getWifiStrength())));
+        polygon.setClickable(true);
+        Orchastrator.areaPolygonMappings.put(area.getId(),polygon);
+        Orchastrator.polygonAreaMappings.put(polygon,area);
     }
 
     @Override

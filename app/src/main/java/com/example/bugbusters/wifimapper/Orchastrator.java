@@ -16,6 +16,7 @@ public class Orchastrator {
     public final static Map<Area, Double> areaStrengthMappings = new ArrayMap<>();
     public static List<Area> areas = null;
     public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
+    public static Map<Polygon, Area> polygonAreaMappings = new HashMap<>();
     public static List<LocationCapstone> LOCATION_LIST = null;
     public static void setUpDB() {
         DatabaseUtils.setListeners();

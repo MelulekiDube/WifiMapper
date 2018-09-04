@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.bugbusters.wifimapper.LocationCapstone;
+import com.example.bugbusters.wifimapper.MapsActivity;
 import com.example.bugbusters.wifimapper.Orchastrator;
 import com.example.bugbusters.wifimapper.Values;
 import com.google.firebase.database.ChildEventListener;
@@ -25,6 +26,7 @@ public class LocationDatabase implements ValueEventListener, ChildEventListener 
             LOCATION_LIST.add(location);
         }
         Orchastrator.setLocationList(LOCATION_LIST);
+//        MapsActivity.renderMarkers();
     }
 
     @Override

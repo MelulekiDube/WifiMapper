@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.maps.android.clustering.ClusterItem;
 
-public class LocationCapstone implements ClusterItem {
+public class LocationCapstone implements ClusterItem{
 
     private double lat;
     private double lon;
@@ -12,9 +12,24 @@ public class LocationCapstone implements ClusterItem {
     private double strength;
     private String areaId;
 
-    /*
-     * */
+
     public LocationCapstone() {
+
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(lat,lon);
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
     }
 
     LocationCapstone(double lat, double lon, long time, double strength) {
@@ -79,21 +94,4 @@ public class LocationCapstone implements ClusterItem {
                 '}';
     }
 
-    @Override
-    @Exclude
-    public LatLng getPosition() {
-        return getLatLng();
-    }
-
-    @Override
-    @Exclude
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    @Exclude
-    public String getSnippet() {
-        return null;
-    }
 }

@@ -23,12 +23,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     public static GoogleMap mMap;
     private boolean granted = false;
     public static boolean viewingMarkers = false;
+    private static  ClusterManager<LocationCapstone> clusterManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +48,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    private void setUpClusterer() {
+
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        clusterManager = new ClusterManager<LocationCapstone>(this, mMap);
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.
+        mMap.setOnCameraIdleListener(clusterManager);
+        mMap.setOnMarkerClickListener(clusterManager);
+
+    }
     /**
      * This method should update the strength rendered to are a with the new strength avg_strength.
      *
-     * @param a            the area/segment to be updated
+     * @param a            the area/segment to b2e updated
      * @param avg_strength the new strength for area a
      */
     public static void updateArea(Area a, double avg_strength) {
@@ -56,11 +75,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param updatedArea the area/segment to be updated
      */
     public static void updateArea(Area updatedArea) {
+
         Polygon polygon = Orchastrator.areaPolygonMappings.get(updatedArea.getId());
+        Orchastrator.polygonAreaMappings.put(polygon,updatedArea);
 //        Log.i("areaStrength",updatedArea.getId()+" "+updatedArea.getWifiStrength());
         polygon.setFillColor(ColorScheme.evaluateColor(updatedArea.getWifiStrength()));
     }
-
     private void updateLocationManager() {
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -93,14 +113,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         if (Orchastrator.LOCATION_LIST == null) throw new NullPointerException();
         for (LocationCapstone l : Orchastrator.LOCATION_LIST) {
-            mMap.addMarker(new MarkerOptions().position(l.getLatLng()));
+//            mMap.addMarker(new MarkerOptions().position(l.getLatLng()));
+                clusterManager.addItem(l);
         }
         viewingMarkers = true;
     }
 
     public static void renderPolygons() {
         mMap.clear();
+        clusterManager.clearItems();
         Orchastrator.areaPolygonMappings.clear();
+        Orchastrator.polygonAreaMappings.clear();
         for (Area area : Orchastrator.areas) {
             AreaDatabase.createPolygon(area);
         }
@@ -108,26 +131,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     *
+     * @param googleMap Map that is rendered on screen
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnCameraMoveListener(new ZoomListener());
+
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(getCenter(polygon.getPoints())));
+//                mMap.addMarker(new MarkerOptions().position(getCenter(polygon.getPoints())));
+                Area area=Orchastrator.polygonAreaMappings.get(polygon);
+                Toast.makeText(getApplicationContext(),area.getName()+"\nStrength: "+area.getWifiStrength(), Toast.LENGTH_SHORT).show();
+            }
+        });
         LatLng Jameson = new LatLng(-33.957669, 18.461038);
         mMap.setMinZoomPreference(Values.MIN_ZOOM_LEVEL);
         mMap.setMaxZoomPreference(Values.MAX_ZOOM_LVEL);
         updateLocationManager();
-        //Orchastrator.getDataFromDatabase(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         Orchastrator.setUpDB();
+        setUpClusterer();
+//        DBPopulator.addSegments(mMap);
+    }
+
+    public static LatLng getCenter(List<LatLng> coordinates)
+    {
+         double lat=0;
+         double lng=0;
+         for(LatLng location:coordinates)
+         {
+             lat+=location.latitude;
+             lng+=location.longitude;
+         }
+         return new LatLng(lat/coordinates.size(),lng/coordinates.size());
     }
 
     @SuppressLint("MissingPermission")

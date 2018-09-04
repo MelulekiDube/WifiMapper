@@ -20,7 +20,6 @@ public class DBPopulator {
         ArrayList<LatLng> coordinates = new ArrayList<>(list);
         //Area testArea = new Area(0,0,coordinates,name);
         DatabaseUtils.addArea(coordinates,name);
-
     }
 
     static void addSegments(GoogleMap mMap) {
@@ -67,7 +66,7 @@ public class DBPopulator {
         Polygon Climate_sys_Group = mMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(-33.956872, 18.459690).toGoogleLatLng(), new LatLng(-33.956950, 18.460371).toGoogleLatLng(),
                         new LatLng(-33.958305, 18.459975).toGoogleLatLng(), new LatLng(-33.958123, 18.459178).toGoogleLatLng())
-                .fillColor(Color.argb(100, 100, 80, 40))
+                .fillColor(Color.argb(100, 100,255 , 40))
                 .strokeWidth(0)
         );
 
@@ -198,27 +197,117 @@ public class DBPopulator {
         populateDB(menziesList, "Menzies");
 
 
-        Polygon Leslie = mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(-33.958922, 18.459650).toGoogleLatLng(),
-                        new LatLng(-33.959899, 18.459160).toGoogleLatLng(),
-                        new LatLng(-33.960763, 18.459929).toGoogleLatLng(),
-                        new LatLng(-33.960435, 18.460415).toGoogleLatLng(),
-                        new LatLng(-33.960266, 18.460231).toGoogleLatLng(),
+        Polygon LeslieSocial = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(-33.959025, 18.460030).toGoogleLatLng(),
+                        new LatLng(-33.959609, 18.459765).toGoogleLatLng(),
+                        new LatLng(-33.959820, 18.460460).toGoogleLatLng(),
                         new LatLng(-33.959250, 18.460750).toGoogleLatLng()
                 )
-                .fillColor(Color.argb(100, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)))
+                .fillColor(Color.argb(150, 255,255,255))
                 .strokeWidth(0)
         );
 
-        List<LatLng> leslieList = Arrays.asList(new LatLng(-33.958922, 18.459650),
-                new LatLng(-33.959899, 18.459160),
-                new LatLng(-33.960763, 18.459929),
-                new LatLng(-33.960435, 18.460415),
-                new LatLng(-33.960266, 18.460231),
+        List<LatLng> lesliesoclist = Arrays.asList(new LatLng(-33.959025, 18.460030),
+                new LatLng(-33.959609, 18.459765),
+                new LatLng(-33.959820, 18.460460),
                 new LatLng(-33.959250, 18.460750));
-        populateDB(leslieList, "Leslie Social");
+        populateDB(lesliesoclist, "Leslie Social");
 
 
+        Polygon Huma = mMap.addPolygon(new PolygonOptions()
+                .add(  new LatLng(-33.959609, 18.459765).toGoogleLatLng(),
+                        new LatLng(-33.959820, 18.460460).toGoogleLatLng(),
+                        new LatLng(-33.960266, 18.460231).toGoogleLatLng(),
+                        new LatLng(-33.960118, 18.459520).toGoogleLatLng()
+                )
+                .fillColor(Color.argb(150, 90,0,95))
+                .strokeWidth(0)
+        );
+
+        List<LatLng> Humalist = Arrays.asList(new LatLng(-33.959609, 18.459765),
+                new LatLng(-33.959820, 18.460460),
+                new LatLng(-33.960266, 18.460231),
+                new LatLng(-33.960118, 18.459520));
+        populateDB(Humalist, "Humanities");
+
+
+        Polygon NLT = mMap.addPolygon(new PolygonOptions()
+                .add(
+                        new LatLng(-33.960118, 18.459520).toGoogleLatLng(),
+                        new LatLng(-33.960266, 18.460231).toGoogleLatLng(),
+                        new LatLng(-33.960435, 18.460415).toGoogleLatLng(),
+                        new LatLng(-33.960738, 18.459938).toGoogleLatLng(),
+                        new LatLng(-33.960282, 18.459434).toGoogleLatLng()
+                )
+                .fillColor(Color.argb(150, 105,100,255))
+                .strokeWidth(0)
+        );
+
+
+        List<LatLng> NLTlist = Arrays.asList(
+                new LatLng(-33.960118, 18.459520),
+                new LatLng(-33.960266, 18.460231),
+                new LatLng(-33.960435, 18.460415),
+                new LatLng(-33.960738, 18.459938),
+                new LatLng(-33.960282, 18.459434));
+        populateDB(NLTlist, "NLT");
+
+
+        Polygon LeslieCommerce = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(-33.958925, 18.459650).toGoogleLatLng(),
+                        new LatLng(-33.959025, 18.460030).toGoogleLatLng(),
+                        new LatLng(-33.959609, 18.459765).toGoogleLatLng(),
+                        new LatLng(-33.959493, 18.459368).toGoogleLatLng()
+                )
+                .fillColor(Color.argb(150, 255,255,0))
+                .strokeWidth(0)
+        );
+
+
+        List<LatLng> leSLIEcOMMERCElist = Arrays.asList(new LatLng(-33.958925, 18.459650),
+                new LatLng(-33.959025, 18.460030),
+                new LatLng(-33.959609, 18.459765),
+                new LatLng(-33.959493, 18.459368));
+        populateDB(leSLIEcOMMERCElist, "Leslie Commerce");
+
+        Polygon African_Bldng = mMap.addPolygon(new PolygonOptions()
+                .add(
+                        new LatLng(-33.959493, 18.459368).toGoogleLatLng(),
+                        new LatLng(-33.959609, 18.459765).toGoogleLatLng(),
+                        new LatLng(-33.959870, 18.459652).toGoogleLatLng(),
+                        new LatLng(-33.959740, 18.459235).toGoogleLatLng()
+                )
+                .fillColor(Color.argb(150, 255,0,0))
+                .strokeWidth(0)
+        );
+
+        List<LatLng> Africalist = Arrays.asList(new LatLng(-33.959493, 18.459368),
+                new LatLng(-33.959609, 18.459765),
+                new LatLng(-33.959870, 18.459652),
+                new LatLng(-33.959740, 18.459235));
+        populateDB(Africalist, "Africa Gallery");
+
+
+        Polygon kaplanCentre = mMap.addPolygon(new PolygonOptions()
+                .add(
+                        new LatLng(-33.959740, 18.459235).toGoogleLatLng(),
+                        new LatLng(-33.959870, 18.459652).toGoogleLatLng(),
+                        new LatLng(-33.960282, 18.459434).toGoogleLatLng(),
+                        new LatLng(-33.959900, 18.459165).toGoogleLatLng()
+                )
+                .fillColor(Color.argb(150, 255,0,255))
+                .strokeWidth(0)
+        );
+
+
+        List<LatLng> Kaplanlist = Arrays.asList(
+                new LatLng(-33.959740, 18.459235),
+                new LatLng(-33.959870, 18.459652),
+                new LatLng(-33.960282, 18.459434),
+                new LatLng(-33.959900, 18.459165));
+        populateDB(Kaplanlist, "Kaplan Center");
+
+////////////////////////////////////////////////////
         Polygon Centlivres = mMap.addPolygon(new PolygonOptions()
                         .add(new LatLng(-33.960435, 18.460415).toGoogleLatLng(),
                                 new LatLng(-33.960266, 18.460231).toGoogleLatLng(),
@@ -252,7 +341,6 @@ public class DBPopulator {
                 .strokeWidth(0)
         );
 
-
         List<LatLng> beattieList = Arrays.asList(new LatLng(-33.958588, 18.460990), new LatLng(-33.958700, 18.461458),
                 new LatLng(-33.959360, 18.461190), new LatLng(-33.959250, 18.460750));
         populateDB(beattieList, "Beattie");
@@ -268,7 +356,6 @@ public class DBPopulator {
                 .fillColor(Color.argb(100, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)))
                 .strokeWidth(0)
         );
-
 
         List<LatLng> jordanList = Arrays.asList(new LatLng(-33.957740, 18.461225), new LatLng(-33.957809, 18.461715),
                 new LatLng(-33.958315, 18.461569),

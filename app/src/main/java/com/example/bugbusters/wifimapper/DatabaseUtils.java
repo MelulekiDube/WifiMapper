@@ -41,13 +41,14 @@ public class DatabaseUtils {
         String id = databaseSignal.push().getKey();//creates a unique string ID
         assert id != null;
         databaseSignal.child(id).setValue(lc);// this will be replaced with reading ifnormation from the database
-
     }
 
     //This method populates the database with areas on the map
     public static void addArea(ArrayList<LatLng> coordinates, String name) {
         //store the values on firebase
+        Log.d(TAG, "AreaAdd() test ");
         String areaId = databaseArea.push().getKey();//creates a unique string ID
+        Log.d(TAG, areaId);
         assert areaId != null;
         Area mArea = new Area(areaId, coordinates, name,0,0);
         databaseArea.child(areaId).setValue(mArea);
