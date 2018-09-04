@@ -53,12 +53,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
         clusterManager = new ClusterManager<LocationCapstone>(this, mMap);
-
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraIdleListener(clusterManager);
         mMap.setOnMarkerClickListener(clusterManager);
-
+        clusterManager.setRenderer(new CustomClusterRenderer(this, mMap, clusterManager));
     }
     /**
      * This method should update the strength rendered to are a with the new strength avg_strength.
