@@ -22,6 +22,7 @@ import java.util.List;
 
 public class AreaDatabase implements ValueEventListener, ChildEventListener {
     private List<Area> areaList = new ArrayList<>();
+    private boolean isRendered =false;
 
     public static void createPolygon(Area area) {
         Polygon polygon = MapsActivity.mMap.addPolygon(
@@ -33,6 +34,16 @@ public class AreaDatabase implements ValueEventListener, ChildEventListener {
         Orchastrator.polygonAreaMappings.put(polygon,area);
     }
 
+    public static void updateAreaList(Area updateArea)
+    {
+     for(Area area:Orchastrator.areas)
+     {
+         if(area.getId().equals(updateArea.getId())){
+             area.setWifiStrength(updateArea.getWifiStrength());
+         }
+     }
+    }
+
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -42,6 +53,7 @@ public class AreaDatabase implements ValueEventListener, ChildEventListener {
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Area area = dataSnapshot.getValue(Area.class);
         MapsActivity.updateArea(area);
+        updateAreaList(area);
     }
 
     @Override
@@ -62,13 +74,15 @@ public class AreaDatabase implements ValueEventListener, ChildEventListener {
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Area area = snapshot.getValue(Area.class);
-            areaList.add(area);
-            createPolygon(area);
+        if (!isRendered) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Area area = snapshot.getValue(Area.class);
+                areaList.add(area);
+                createPolygon(area);
+            }
+            Orchastrator.setAreaList(areaList);
+            DatabaseUtils.loadedArea = true;
+            isRendered = true;
         }
-        Orchastrator.setAreaList(areaList);
-        DatabaseUtils.loadedArea = true;
     }
-
 }

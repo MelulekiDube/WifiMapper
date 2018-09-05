@@ -47,6 +47,7 @@ public class RecordProcessor implements Runnable {
         return wifiInfo.getLinkSpeed();
     }
 
+
     private static String getLocationAreaId(LocationCapstone location) {
         List<Area> areaList = Orchastrator.areas;
         Area locationArea = null;
@@ -65,6 +66,7 @@ public class RecordProcessor implements Runnable {
      *
      * @return The wi-fi name that the user is connected to.
      */
+
     private String getWifiName() {
         return wifiInfo.getSSID().replace("\"", "");
     }
@@ -76,7 +78,6 @@ public class RecordProcessor implements Runnable {
      */
     private LocationCapstone buildLocationCapstone() {
         LocationCapstone locationCapstone = new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
-//        locationCapstone.setAreaId(getLocationAreaId(locationCapstone));
         return locationCapstone;
     }
 
@@ -84,15 +85,15 @@ public class RecordProcessor implements Runnable {
     public void run() {
         Log.i("SendTest", "RecordProcessor Thread Run() is called");
         if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
-            while (!DatabaseUtils.loadedArea) ;
+            while (!DatabaseUtils.loadedArea);
             LocationCapstone sentLocation = buildLocationCapstone();
-            DatabaseUtils.addSignal(sentLocation);
             String areaToUpdate = getLocationAreaId(sentLocation);
             if (areaToUpdate == null) {
-                Log.e(Values.TAG, "id is not  of a valid area");
+                Log.e("AREATEST", "id is not  of a valid area");
                 return;
             }
             Log.i("SendTest", "Before Update is called");
+            DatabaseUtils.addSignal(sentLocation);
             DatabaseUtils.updateArea(areaToUpdate, getWifiStrength());
             Log.i(RecordProcessor.class.getName(), "Data return to db");
         } else

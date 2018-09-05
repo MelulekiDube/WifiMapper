@@ -33,7 +33,6 @@ public class ColorScheme {
         return Color.rgb(Color.red(argb),Color.green(argb),Color.blue(argb));
     }
 
-
     public static int getHue(int RGBint) {
         int blue =  RGBint & 255;
         int green = (RGBint >> 8) & 255;

@@ -18,9 +18,7 @@ public class Orchastrator {
     public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
     public static Map<Polygon, Area> polygonAreaMappings = new HashMap<>();
     public static List<LocationCapstone> LOCATION_LIST = null;
-    public static void setUpDB() {
-        DatabaseUtils.setListeners();
-    }
+    public static void setUpDB() { DatabaseUtils.setListeners(); }
 
     /**
      * This method is going to be responsible to spawn the thread that will be sending the data to the database this way the main thread can continue doing what its doing

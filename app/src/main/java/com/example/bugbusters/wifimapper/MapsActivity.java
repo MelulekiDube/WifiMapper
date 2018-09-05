@@ -138,12 +138,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnCameraMoveListener(new ZoomListener());
-
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
             public void onPolygonClick(Polygon polygon) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(getCenter(polygon.getPoints())));
-//                mMap.addMarker(new MarkerOptions().position(getCenter(polygon.getPoints())));
                 Area area=Orchastrator.polygonAreaMappings.get(polygon);
                 Toast.makeText(getApplicationContext(),area.getName()+"\nStrength: "+area.getWifiStrength(), Toast.LENGTH_SHORT).show();
             }
@@ -156,6 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         Orchastrator.setUpDB();
         setUpClusterer();
+
 //        DBPopulator.addSegments(mMap);
     }
 
