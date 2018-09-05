@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        clusterManager = new ClusterManager<LocationCapstone>(this, mMap);
+        clusterManager = new ClusterManager<>(this, mMap);
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraIdleListener(clusterManager);
@@ -151,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMaxZoomPreference(Values.MAX_ZOOM_LVEL);
         updateLocationManager();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         Orchastrator.setUpDB();
         setUpClusterer();
 
@@ -180,8 +180,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 granted = true;
             } else {
-                // Permission was denied or request was cancelled
-//                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
+                 //Permission was denied or request was cancelled
+                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
             }
         }
     }

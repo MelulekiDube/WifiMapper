@@ -19,7 +19,7 @@ import com.google.firebase.database.Transaction;
 import java.util.ArrayList;
 
 public class DatabaseUtils {
-    private static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
+    private static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("locations");
     private static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("areas");
 
     private final static String TAG = "DATABASE_UTILS";
