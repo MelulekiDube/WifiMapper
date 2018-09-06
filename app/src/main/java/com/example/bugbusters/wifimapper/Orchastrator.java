@@ -17,7 +17,7 @@ public class Orchastrator {
     public static List<Area> areas = null;
     public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
     public static Map<Polygon, Area> polygonAreaMappings = new HashMap<>();
-    public static List<LocationCapstone> LOCATION_LIST = null;
+    public static List<LocationRecord> LOCATION_LIST = null;
     public static void setUpDB() { DatabaseUtils.setListeners(); }
 
     /**
@@ -44,7 +44,7 @@ public class Orchastrator {
      *
      * @param newObject the new object added to the database
      */
-    public static void updateSegmentWithObject(LocationCapstone newObject) {
+    public static void updateSegmentWithObject(LocationRecord newObject) {
         for (Area a : areas) {
             if (a.getId().equals(newObject.getAreaId())) {
                 double avg_strength = areaStrengthMappings.get(a);
@@ -59,7 +59,7 @@ public class Orchastrator {
      *
      * @param locationList list of locations read from the database
      */
-    public static void setLocationList(List<LocationCapstone> locationList) {
+    public static void setLocationList(List<LocationRecord> locationList) {
         LOCATION_LIST = locationList;
     }
 }

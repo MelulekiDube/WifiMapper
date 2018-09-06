@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
@@ -21,9 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
@@ -33,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static GoogleMap mMap;
     private boolean granted = false;
     public static boolean viewingMarkers = false;
-    private static  ClusterManager<LocationCapstone> clusterManager;
+    private static ClusterManager<LocationRecord> clusterManager;
 
 
     @Override
@@ -107,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static void renderMarkers() {
         mMap.clear();
         if (Orchastrator.LOCATION_LIST == null) throw new NullPointerException();
-        for (LocationCapstone l : Orchastrator.LOCATION_LIST) {
+        for (LocationRecord l : Orchastrator.LOCATION_LIST) {
 //            mMap.addMarker(new MarkerOptions().position(l.getLatLng()));
                 clusterManager.addItem(l);
         }

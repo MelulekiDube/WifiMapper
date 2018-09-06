@@ -1,26 +1,20 @@
 package com.example.bugbusters.wifimapper;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.google.maps.android.data.Layer;
 import com.google.maps.android.ui.IconGenerator;
 
-public class CustomClusterRenderer extends DefaultClusterRenderer<LocationCapstone> {
+public class CustomClusterRenderer extends DefaultClusterRenderer<LocationRecord> {
 
     private Context context;
 
-    public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<LocationCapstone> clusterManager) {
+    public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<LocationRecord> clusterManager) {
         super(context, map, clusterManager);
         this.context=context;
     }
@@ -31,20 +25,20 @@ public class CustomClusterRenderer extends DefaultClusterRenderer<LocationCapsto
     }
 
     @Override
-    public void setOnClusterItemInfoWindowClickListener(ClusterManager.OnClusterItemInfoWindowClickListener<LocationCapstone> listener) {
+    public void setOnClusterItemInfoWindowClickListener(ClusterManager.OnClusterItemInfoWindowClickListener<LocationRecord> listener) {
         super.setOnClusterItemInfoWindowClickListener(listener);
     }
 
     @Override
-    protected void onBeforeClusterItemRendered(LocationCapstone item, MarkerOptions markerOptions) {
+    protected void onBeforeClusterItemRendered(LocationRecord item, MarkerOptions markerOptions) {
         int hue=ColorScheme.getHue(ColorScheme.evaluateColor((int)item.getStrength()));
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hue));
     }
 
     @Override
-    protected void onBeforeClusterRendered(Cluster<LocationCapstone> cluster, MarkerOptions markerOptions) {
+    protected void onBeforeClusterRendered(Cluster<LocationRecord> cluster, MarkerOptions markerOptions) {
         int total=0;
-        for(LocationCapstone location:cluster.getItems())
+        for (LocationRecord location : cluster.getItems())
         {
             total+=location.getStrength();
         }

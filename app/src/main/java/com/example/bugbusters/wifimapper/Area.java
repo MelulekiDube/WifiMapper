@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Area {
     private String id;
-    private ArrayList<LatLng> coordinates;
+    private List<LatLng> coordinates;
     private String name;
     private int wifiStrength;
     private int numLocation;
@@ -67,7 +67,7 @@ public class Area {
      * Method to get the cordinates that make up a WLAN zone
      * @return return a list with all the LatLang objects.
      */
-    public ArrayList<LatLng> getCoordinates() {
+    public List<LatLng> getCoordinates() {
         return coordinates;
     }
 

@@ -36,7 +36,7 @@ public class DatabaseUtils {
         databaseArea.addChildEventListener(areaDatabase);
     }
 
-    public static void addSignal(LocationCapstone lc) {
+    public static void addSignal(LocationRecord lc) {
         //store the values on firebase
         String id = databaseSignal.push().getKey();//creates a unique string ID
         assert id != null;
