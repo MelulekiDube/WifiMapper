@@ -46,7 +46,7 @@ public class Orchastrator {
      */
     public static void updateSegmentWithObject(LocationCapstone newObject) {
         for (Area a : areas) {
-            if (a.id.equals(newObject.getAreaId())) {
+            if (a.getId().equals(newObject.getAreaId())) {
                 double avg_strength = areaStrengthMappings.get(a);
                 avg_strength = (avg_strength + newObject.getStrength()) / 2;
                 MapsActivity.updateArea(a, avg_strength);
@@ -62,37 +62,4 @@ public class Orchastrator {
     public static void setLocationList(List<LocationCapstone> locationList) {
         LOCATION_LIST = locationList;
     }
-
-    /**
-     * Given a locationcapstone project this method returns the area that this object belongs to
-     *
-     * @param locationCapstone the object we want to get which area it belongs to
-     * @return are to which the location object belongs to
-     */
-    private static Area getArea(LocationCapstone locationCapstone) {
-        for (Area a : areas) {
-            if (a.id.equals(locationCapstone.getAreaId())) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * This methods inserts appropriately to the list
-     *
-     * @param a  area to insert to
-     * @param ll location that will update the area object
-     */
-
-    private static void insert(Area a, LocationCapstone ll) {
-        if (a != null) {
-            Double strength = (areaStrengthMappings.containsKey(a)) ? areaStrengthMappings.get(a) : 0;
-            strength = (strength + ll.getStrength()) / 2;
-            areaStrengthMappings.put(a, strength);
-        }
-    }
-
-
-
 }

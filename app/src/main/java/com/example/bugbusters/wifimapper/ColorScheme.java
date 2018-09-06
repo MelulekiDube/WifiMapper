@@ -10,7 +10,12 @@ public class ColorScheme {
     private static final int GREEN_LIGHT = Color.argb(TRANSPARENCY, 127, 255, 0);
     private static final int GREEN = Color.argb(TRANSPARENCY, 0, 255, 0);
 
-
+    /**
+     * Given an int number this method will evaluate the color to represent
+     *
+     * @param wifiStrength the value which has the color to be decided.
+     * @return the integer representing the color
+     */
     public static int evaluateColor(int wifiStrength) {
         int color;
         if (wifiStrength < 30) {
@@ -27,12 +32,22 @@ public class ColorScheme {
         return color;
     }
 
-    public static int getNonTransparentColor(int wifiStrength)
-    {
+    /**
+     * Method to set the transparency of a color given a strength
+     *
+     * @param wifiStrength the wifi strength to remove the transparency
+     * @return the new color with the transparancy removed.
+     */
+    public static int getNonTransparentColor(int wifiStrength) {
         int argb=evaluateColor(wifiStrength);
         return Color.rgb(Color.red(argb),Color.green(argb),Color.blue(argb));
     }
 
+    /**
+     * Evaluates a RGB color values into a Hue value and returns it.
+     * @param RGBint the RGB int value to convert to hue
+     * @return the Hue value
+     */
     public static int getHue(int RGBint) {
         int blue =  RGBint & 255;
         int green = (RGBint >> 8) & 255;

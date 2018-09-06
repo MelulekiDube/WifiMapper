@@ -17,10 +17,6 @@ public class Signal {
         return strength;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
     public void setTime(int tp) {
         this.throughPut = tp;
     }

@@ -39,15 +39,11 @@ public class RecordProcessor implements Runnable {
     }
 
     /**
-     * Method to get the speed of the wifi that the user is connected to
+     * Given a locationcapstone project this method returns the area id that this object belongs to
      *
-     * @return the Wi-Fi speed.
+     * @param location the object we want to get which area it belongs to
+     * @return area id to which the location object belongs to
      */
-    private int getWifiSpeed() {
-        return wifiInfo.getLinkSpeed();
-    }
-
-
     private static String getLocationAreaId(LocationCapstone location) {
         List<Area> areaList = Orchastrator.areas;
         Area locationArea = null;
@@ -94,7 +90,7 @@ public class RecordProcessor implements Runnable {
             }
             Log.i("SendTest", "Before Update is called");
             DatabaseUtils.addSignal(sentLocation);
-            DatabaseUtils.updateArea(areaToUpdate, getWifiStrength());
+            DatabaseUtils.updateAreaOnDatabase(areaToUpdate, getWifiStrength());
             Log.i(RecordProcessor.class.getName(), "Data return to db");
         } else
             Log.i(RecordProcessor.class.getName(), "Not on eduroam");

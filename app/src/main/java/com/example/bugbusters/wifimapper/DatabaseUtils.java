@@ -19,7 +19,7 @@ import com.google.firebase.database.Transaction;
 import java.util.ArrayList;
 
 public class DatabaseUtils {
-    private static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("locations");
+    private static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
     private static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("areas");
 
     private final static String TAG = "DATABASE_UTILS";
@@ -55,15 +55,17 @@ public class DatabaseUtils {
 
     }
 
-    public static void updateArea(String id, final int wifiStrength) {
-        Log.i("SendTest", "inside updateArea()");
+    public static void updateAreaOnDatabase(String id, final int wifiStrength) {
+        Log.i("SendTest", "inside updateAreaOnDatabase()");
         DatabaseReference areaRef=databaseArea.child(id);
         areaRef.runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Area area=mutableData.getValue(Area.class);
-                mutableData.setValue(area.updateArea(wifiStrength));
+                assert area != null;//check if area is not null
+                area.updateArea(wifiStrength);
+                mutableData.setValue(area);
                 return Transaction.success(mutableData);
             }
 

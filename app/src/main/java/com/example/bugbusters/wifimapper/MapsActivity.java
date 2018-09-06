@@ -98,10 +98,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 assert locationManager != null;
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
             }
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
         } else {
             assert locationManager != null;
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
@@ -154,8 +150,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         Orchastrator.setUpDB();
         setUpClusterer();
-
-//        DBPopulator.addSegments(mMap);
     }
 
     public static LatLng getCenter(List<LatLng> coordinates)
