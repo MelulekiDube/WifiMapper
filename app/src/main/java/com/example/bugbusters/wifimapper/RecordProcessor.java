@@ -39,16 +39,12 @@ public class RecordProcessor implements Runnable {
     }
 
     /**
-     * Method to get the speed of the wifi that the user is connected to
+     * Given a locationcapstone project this method returns the area id that this object belongs to
      *
-     * @return the Wi-Fi speed.
+     * @param location the object we want to get which area it belongs to
+     * @return area id to which the location object belongs to
      */
-    private int getWifiSpeed() {
-        return wifiInfo.getLinkSpeed();
-    }
-
-
-    private static String getLocationAreaId(LocationCapstone location) {
+    private static String getLocationAreaId(LocationRecord location) {
         List<Area> areaList = Orchastrator.areas;
         Area locationArea = null;
         for (int i = 0; i < areaList.size(); i++) {
@@ -76,9 +72,9 @@ public class RecordProcessor implements Runnable {
      *
      * @return the LocationObject that is goign to be built
      */
-    private LocationCapstone buildLocationCapstone() {
-        LocationCapstone locationCapstone = new LocationCapstone(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
-        return locationCapstone;
+    private LocationRecord buildLocationCapstone() {
+        LocationRecord locationRecord = new LocationRecord(location.getLatitude(), location.getLongitude(), location.getTime(), getWifiStrength());
+        return locationRecord;
     }
 
     @Override
@@ -86,7 +82,7 @@ public class RecordProcessor implements Runnable {
         Log.i("SendTest", "RecordProcessor Thread Run() is called");
         if (getWifiName().toLowerCase().equals(NETWORK_ID)) {
             while (!DatabaseUtils.loadedArea);
-            LocationCapstone sentLocation = buildLocationCapstone();
+            LocationRecord sentLocation = buildLocationCapstone();
             String areaToUpdate = getLocationAreaId(sentLocation);
             if (areaToUpdate == null) {
                 Log.e("AREATEST", "id is not  of a valid area");
@@ -94,7 +90,7 @@ public class RecordProcessor implements Runnable {
             }
             Log.i("SendTest", "Before Update is called");
             DatabaseUtils.addSignal(sentLocation);
-            DatabaseUtils.updateArea(areaToUpdate, getWifiStrength());
+            DatabaseUtils.updateAreaOnDatabase(areaToUpdate, getWifiStrength());
             Log.i(RecordProcessor.class.getName(), "Data return to db");
         } else
             Log.i(RecordProcessor.class.getName(), "Not on eduroam");

@@ -36,7 +36,7 @@ public class DatabaseUtils {
         databaseArea.addChildEventListener(areaDatabase);
     }
 
-    public static void addSignal(LocationCapstone lc) {
+    public static void addSignal(LocationRecord lc) {
         //store the values on firebase
         String id = databaseSignal.push().getKey();//creates a unique string ID
         assert id != null;
@@ -55,15 +55,17 @@ public class DatabaseUtils {
 
     }
 
-    public static void updateArea(String id, final int wifiStrength) {
-        Log.i("SendTest", "inside updateArea()");
+    public static void updateAreaOnDatabase(String id, final int wifiStrength) {
+        Log.i("SendTest", "inside updateAreaOnDatabase()");
         DatabaseReference areaRef=databaseArea.child(id);
         areaRef.runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
                 Area area=mutableData.getValue(Area.class);
-                mutableData.setValue(area.updateArea(wifiStrength));
+                assert area != null;//check if area is not null
+                area.updateArea(wifiStrength);
+                mutableData.setValue(area);
                 return Transaction.success(mutableData);
             }
 

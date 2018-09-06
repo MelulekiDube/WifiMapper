@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
@@ -21,9 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
@@ -33,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static GoogleMap mMap;
     private boolean granted = false;
     public static boolean viewingMarkers = false;
-    private static  ClusterManager<LocationCapstone> clusterManager;
+    private static ClusterManager<LocationRecord> clusterManager;
 
 
     @Override
@@ -52,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        clusterManager = new ClusterManager<LocationCapstone>(this, mMap);
+        clusterManager = new ClusterManager<>(this, mMap);
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraIdleListener(clusterManager);
@@ -98,10 +95,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 assert locationManager != null;
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
             }
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
         } else {
             assert locationManager != null;
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
@@ -111,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static void renderMarkers() {
         mMap.clear();
         if (Orchastrator.LOCATION_LIST == null) throw new NullPointerException();
-        for (LocationCapstone l : Orchastrator.LOCATION_LIST) {
+        for (LocationRecord l : Orchastrator.LOCATION_LIST) {
 //            mMap.addMarker(new MarkerOptions().position(l.getLatLng()));
                 clusterManager.addItem(l);
         }
@@ -151,11 +144,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMaxZoomPreference(Values.MAX_ZOOM_LVEL);
         updateLocationManager();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Jameson));
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         Orchastrator.setUpDB();
         setUpClusterer();
-
-//        DBPopulator.addSegments(mMap);
     }
 
     public static LatLng getCenter(List<LatLng> coordinates)
@@ -180,8 +171,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 granted = true;
             } else {
-                // Permission was denied or request was cancelled
-//                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
+                 //Permission was denied or request was cancelled
+                Toast.makeText(getApplicationContext(), R.string.DeniedPermisions, Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -17,7 +17,7 @@ public class Orchastrator {
     public static List<Area> areas = null;
     public static Map<String, Polygon> areaPolygonMappings = new HashMap<>();
     public static Map<Polygon, Area> polygonAreaMappings = new HashMap<>();
-    public static List<LocationCapstone> LOCATION_LIST = null;
+    public static List<LocationRecord> LOCATION_LIST = null;
     public static void setUpDB() { DatabaseUtils.setListeners(); }
 
     /**
@@ -44,9 +44,9 @@ public class Orchastrator {
      *
      * @param newObject the new object added to the database
      */
-    public static void updateSegmentWithObject(LocationCapstone newObject) {
+    public static void updateSegmentWithObject(LocationRecord newObject) {
         for (Area a : areas) {
-            if (a.id.equals(newObject.getAreaId())) {
+            if (a.getId().equals(newObject.getAreaId())) {
                 double avg_strength = areaStrengthMappings.get(a);
                 avg_strength = (avg_strength + newObject.getStrength()) / 2;
                 MapsActivity.updateArea(a, avg_strength);
@@ -59,40 +59,7 @@ public class Orchastrator {
      *
      * @param locationList list of locations read from the database
      */
-    public static void setLocationList(List<LocationCapstone> locationList) {
+    public static void setLocationList(List<LocationRecord> locationList) {
         LOCATION_LIST = locationList;
     }
-
-    /**
-     * Given a locationcapstone project this method returns the area that this object belongs to
-     *
-     * @param locationCapstone the object we want to get which area it belongs to
-     * @return are to which the location object belongs to
-     */
-    private static Area getArea(LocationCapstone locationCapstone) {
-        for (Area a : areas) {
-            if (a.id.equals(locationCapstone.getAreaId())) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * This methods inserts appropriately to the list
-     *
-     * @param a  area to insert to
-     * @param ll location that will update the area object
-     */
-
-    private static void insert(Area a, LocationCapstone ll) {
-        if (a != null) {
-            Double strength = (areaStrengthMappings.containsKey(a)) ? areaStrengthMappings.get(a) : 0;
-            strength = (strength + ll.getStrength()) / 2;
-            areaStrengthMappings.put(a, strength);
-        }
-    }
-
-
-
 }
