@@ -36,7 +36,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        updateLocationManager();
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -47,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setUpClusterer() {
 
-        // Initialize the manager with the context and the map.
+        // Initialize the Cluster Manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
         clusterManager = new ClusterManager<>(this, mMap);
         // Point the map's listeners at the listeners implemented by the cluster
@@ -55,14 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnCameraIdleListener(clusterManager);
         mMap.setOnMarkerClickListener(clusterManager);
         clusterManager.setRenderer(new CustomClusterRenderer(this, mMap, clusterManager));
-    }
-    /**
-     * This method should update the strength rendered to are a with the new strength avg_strength.
-     *
-     * @param a            the area/segment to b2e updated
-     * @param avg_strength the new strength for area a
-     */
-    public static void updateArea(Area a, double avg_strength) {
     }
 
     /**
@@ -74,7 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Polygon polygon = Orchastrator.areaPolygonMappings.get(updatedArea.getId());
         Orchastrator.polygonAreaMappings.put(polygon,updatedArea);
-//        Log.i("areaStrength",updatedArea.getId()+" "+updatedArea.getWifiStrength());
         polygon.setFillColor(ColorScheme.evaluateColor(updatedArea.getWifiStrength()));
     }
     private void updateLocationManager() {

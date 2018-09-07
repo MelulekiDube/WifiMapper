@@ -40,21 +40,6 @@ public class Orchastrator {
     }
 
     /**
-     * This method will look for the location
-     *
-     * @param newObject the new object added to the database
-     */
-    public static void updateSegmentWithObject(LocationRecord newObject) {
-        for (Area a : areas) {
-            if (a.getId().equals(newObject.getAreaId())) {
-                double avg_strength = areaStrengthMappings.get(a);
-                avg_strength = (avg_strength + newObject.getStrength()) / 2;
-                MapsActivity.updateArea(a, avg_strength);
-            }
-        }
-    }
-
-    /**
      * This method maps each area object to its strength
      *
      * @param locationList list of locations read from the database
