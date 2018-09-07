@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "705085920910",
+    "firebase_url": "https://capestone-a8a58.firebaseio.com",
+    "project_id": "capestone-a8a58",
+    "storage_bucket": "capestone-a8a58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705085920910:android:588b8fbdf74a7438",
+        "android_client_info": {
+          "package_name": "com.example.bugbusters.wifimapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705085920910-29ic0os7d4gj8ehfl44qeaiva2iuv06m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bugbusters.wifimapper",
+            "certificate_hash": "27ac7ee9276dbee6fb8b47a7ad769498edd53c52"
+          }
+        },
+        {
+          "client_id": "705085920910-vm1v7r82mtm1nptg7krjrqb77ms55uh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUwEVjhIJjFIJhmY7E3n6tulJvP-mjd3I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705085920910-vm1v7r82mtm1nptg7krjrqb77ms55uh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705085920910:android:2d6eb8ff7f27764c",
+        "android_client_info": {
+          "package_name": "com.example.clayza.capstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705085920910-4sp5tbvae71c36aor7egfs2uadc13e98.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.clayza.capstone",
+            "certificate_hash": "2087a434bc3a73c5db0c2a5a4e1e233d891a66d2"
+          }
+        },
+        {
+          "client_id": "705085920910-2mrqe3eeoengc6hg9gfmp5aj64d24nnl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.clayza.capstone",
+            "certificate_hash": "27ac7ee9276dbee6fb8b47a7ad769498edd53c52"
+          }
+        },
+        {
+          "client_id": "705085920910-vm1v7r82mtm1nptg7krjrqb77ms55uh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUwEVjhIJjFIJhmY7E3n6tulJvP-mjd3I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705085920910-vm1v7r82mtm1nptg7krjrqb77ms55uh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
