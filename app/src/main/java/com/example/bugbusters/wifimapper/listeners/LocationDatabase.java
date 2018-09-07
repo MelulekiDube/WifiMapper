@@ -17,14 +17,18 @@ import java.util.List;
 
 public class LocationDatabase implements ValueEventListener, ChildEventListener {
     private final List<LocationRecord> LOCATION_LIST = new ArrayList<>();
+    private boolean alreadyLoaded = false;
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            LocationRecord location = snapshot.getValue(LocationRecord.class);
-            LOCATION_LIST.add(location);
+        if (!alreadyLoaded) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                LocationRecord location = snapshot.getValue(LocationRecord.class);
+                LOCATION_LIST.add(location);
+            }
+            Orchastrator.setLocationList(LOCATION_LIST);
+            alreadyLoaded = true;
         }
-        Orchastrator.setLocationList(LOCATION_LIST);
 //        MapsActivity.renderMarkers();
     }
 
@@ -37,8 +41,8 @@ public class LocationDatabase implements ValueEventListener, ChildEventListener 
     //begin ChildEven methods
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        LocationRecord newObject = dataSnapshot.getValue(LocationRecord.class);
-        Orchastrator.updateSegmentWithObject(newObject);
+        LocationRecord newLocation = dataSnapshot.getValue(LocationRecord.class);
+        if (alreadyLoaded) Orchastrator.LOCATION_LIST.add(newLocation);
     }
 
     @Override
