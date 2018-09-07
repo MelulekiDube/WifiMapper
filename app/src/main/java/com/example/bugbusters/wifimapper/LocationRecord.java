@@ -1,20 +1,38 @@
 package com.example.bugbusters.wifimapper;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
+import com.google.maps.android.clustering.ClusterItem;
 
-public class LocationCapstone {
+public class LocationRecord implements ClusterItem {
 
     private double lat;
     private double lon;
     private long time;
     private double strength;
-    private String signalId;
+    private String areaId;
 
 
-    public LocationCapstone() {
+    public LocationRecord() {
+
     }
 
-    public LocationCapstone(double lat, double lon, long time, double strength) {
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(lat,lon);
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
+    }
+
+    LocationRecord(double lat, double lon, long time, double strength) {
         this.lat = lat;
         this.lon = lon;
         this.time = time;
@@ -53,22 +71,27 @@ public class LocationCapstone {
         this.strength = strength;
     }
 
-    @Exclude
-    public String getSignalId() {
-        return signalId;
+    public String getAreaId() {
+        return areaId;
     }
 
-    public void setSignalId(String signalId) {
-        this.signalId = signalId;
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    @Exclude
+    public LatLng getLatLng() {
+        return new LatLng(lat, lon);
     }
 
     @Override
     public String toString() {
-        return "LocationCapstone{" +
+        return "LocationRecord{" +
                 "lat=" + lat +
                 ", lon=" + lon +
                 ", time=" + time +
                 ", strength=" + strength +
                 '}';
     }
+
 }

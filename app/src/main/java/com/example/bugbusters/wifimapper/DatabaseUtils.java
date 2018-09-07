@@ -1,66 +1,79 @@
 package com.example.bugbusters.wifimapper;
 
-import android.util.Log;
-import android.widget.ListView;
+//import android.util.Log;
 
-import com.example.bugbusters.wifimapper.LocationCapstone;
-import com.google.android.gms.common.api.GoogleApiClient;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.example.bugbusters.wifimapper.listeners.AreaDatabase;
+import com.example.bugbusters.wifimapper.listeners.LocationDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class DatabaseUtils {
-    static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
-    ListView listView;
+    private static DatabaseReference databaseSignal = FirebaseDatabase.getInstance().getReference().child("location");
+    private static DatabaseReference databaseArea = FirebaseDatabase.getInstance().getReference().child("areas");
 
-    private void addSignal() {
-        double lon =0;
-        double lat =0;
+    private final static String TAG = "DATABASE_UTILS";
+    private final static String ERROR_MESSAGE = "Error in reading the values";
+    public static boolean loadedArea = false;
 
-        double strengthValue =0;
-        Date  date = new Date();
+    public static void setListeners() {
+        LocationDatabase locationDatabase = new LocationDatabase();
+        AreaDatabase areaDatabase = new AreaDatabase();
+        databaseSignal.addListenerForSingleValueEvent(locationDatabase);
+        databaseSignal.addChildEventListener(locationDatabase);
 
+        databaseArea.addListenerForSingleValueEvent(areaDatabase);
+        databaseArea.addChildEventListener(areaDatabase);
+    }
 
+    public static void addSignal(LocationRecord lc) {
         //store the values on firebase
-        String id =databaseSignal.push().getKey();//creates a unique string ID
+        String id = databaseSignal.push().getKey();//creates a unique string ID
+        assert id != null;
+        databaseSignal.child(id).setValue(lc);// this will be replaced with reading ifnormation from the database
+    }
 
-
-        LocationCapstone lc = new LocationCapstone(lat,lon,date.getTime(),strengthValue);
-        databaseSignal.child(id).setValue(lc);
+    //This method populates the database with areas on the map
+    public static void addArea(ArrayList<LatLng> coordinates, String name) {
+        //store the values on firebase
+        Log.d(TAG, "AreaAdd() test ");
+        String areaId = databaseArea.push().getKey();//creates a unique string ID
+        Log.d(TAG, areaId);
+        assert areaId != null;
+        Area mArea = new Area(areaId, coordinates, name,0,0);
+        databaseArea.child(areaId).setValue(mArea);
 
     }
-    public static void readDatabase(){
-        final List<LocationCapstone> signalList = new ArrayList<>();
-        // Read from the database
-        databaseSignal.addValueEventListener(new ValueEventListener() {
+
+    public static void updateAreaOnDatabase(String id, final int wifiStrength) {
+        Log.i("SendTest", "inside updateAreaOnDatabase()");
+        DatabaseReference areaRef=databaseArea.child(id);
+        areaRef.runTransaction(new Transaction.Handler() {
+            @NonNull
             @Override
-            public void onDataChange (DataSnapshot dataSnapshot){
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    LocationCapstone location =snapshot.getValue(LocationCapstone.class);
-                    signalList.add(location);
-                    //  Log.d("TAG", "Value is: " + location);
-                }
-
+            public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                Area area=mutableData.getValue(Area.class);
+                assert area != null;//check if area is not null
+                area.updateArea(wifiStrength);
+                mutableData.setValue(area);
+                return Transaction.success(mutableData);
             }
 
             @Override
-            public void onCancelled (DatabaseError error){
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
+            public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                    Log.i("UPDATE","Data is successfully Updated");
             }
         });
+
     }
-
-
-
 }
