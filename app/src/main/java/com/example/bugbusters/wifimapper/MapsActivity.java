@@ -42,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+
     }
 
     private void setUpClusterer() {
@@ -57,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * This method should update the strength rendered to are a with the new strength avg_strength.
+     * This method should update the strength rendered to area with the new strength avg_strength.
      *
      * @param updatedArea the area/segment to be updated
      */
@@ -90,6 +92,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
         }
     }
+
+    /**
+     * Renders individual points on the map
+     */
 
     public static void renderMarkers() {
         mMap.clear();
@@ -137,6 +143,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         Orchastrator.setUpDB();
         setUpClusterer();
+
+
+        //uncomment to write to the database/firebase, this method should be ran once to populate the database with polygons
+        DBPopulator.addSegments(mMap);
+
     }
 
     public static LatLng getCenter(List<LatLng> coordinates)
